@@ -1,0 +1,7 @@
+1. Thread
+2. Reply
+3. User
+
+# Thread belongs to a user, and thread can have many replies
+# Reply belongs to a user, but it also belongs to a thread
+# User is the author of the thread, user is the author (owner) of the reply.

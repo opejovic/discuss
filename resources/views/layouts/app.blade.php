@@ -19,7 +19,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app" class="min-h-screen">
+    <div id="app" class="min-h-screen pb-24">
         <!-- navigation -->
         <navigation-bar></navigation-bar>
 

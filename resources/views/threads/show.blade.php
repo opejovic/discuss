@@ -22,4 +22,17 @@
             No replies yet.
         @endforelse
     </div>
+
+    @if (Auth::check())
+    <div class="w-1/2 pt-2">
+        <form action="{{ route('replies.store', $thread) }}" method="POST">
+            @csrf
+            <div>
+                <textarea class="w-full text-gray-700 placeholder-gray-500 text-sm border p-3 rounded-lg focus:outline-none" name="body" id="" rows="4" placeholder="Have something to say?"></textarea>
+            </div>
+
+            <button type="submit" class="rounded-lg shadow bg-gray-200 hover:bg-gray-300 block px-4 py-2 uppercase text-gray-700 text-xs">Submit</button>
+        </form>
+    </div>
+    @endif
 @endsection

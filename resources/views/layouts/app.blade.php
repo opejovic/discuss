@@ -23,7 +23,7 @@
         <!-- navigation -->
         <navigation-bar></navigation-bar>
 
-        <main class="py-4">
+        <main class="py-4 px-6">
             @yield('content')
         </main>
     </div>

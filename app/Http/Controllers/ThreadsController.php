@@ -44,11 +44,14 @@ class ThreadsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Thread $thread)
     {
-        return view('threads.show', ['thread' => $thread]);
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies
+        ]);
     }
 
     /**

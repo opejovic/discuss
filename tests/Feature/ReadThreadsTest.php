@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Reply;
 use App\Thread;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,36 +12,44 @@ class ReadThreadsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $thread;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->thread = factory(Thread::class)->create();
+    }
+
     /** @test */
     function a_user_can_browse_threads()
     {
-        // Arrange
-        $threadA = factory(Thread::class)->create();
-        $threadB = factory(Thread::class)->create();
-
-        // Act
         $response = $this->get('/threads');
 
-        // Assert
         $response->assertSuccessful();
         $response->assertViewIs('threads.index');
-        $response->assertSee($threadA->title);
-        $response->assertSee($threadB->title);
+        $response->assertSee($this->thread->title);
     }
 
     /** @test */
     function a_user_can_read_a_thread()
     {
-        // Arrange
-        $thread = factory(Thread::class)->create();
-    
-        // Act
-        $response = $this->get(route('threads.show', $thread));
-    
-        // Assert 
+        $response = $this->get(route('threads.show', $this->thread));
+
         $response->assertSuccessful();
         $response->assertViewIs('threads.show');
-        $response->assertSee($thread->title);
-        $response->assertSee($thread->body);
+        $response->assertSee($this->thread->title);
+        $response->assertSee($this->thread->body);
+    }
+
+    /** @test */
+    function a_user_can_read_replies_that_are_associated_with_a_thread()
+    {
+        $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
+
+        $response = $this->get("threads/{$this->thread->id}");
+
+        $response->assertSuccessful();
+        $response->assertSee($reply->body);
     }
 }

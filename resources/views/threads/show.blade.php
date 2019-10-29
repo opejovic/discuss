@@ -4,18 +4,20 @@
     <div class="pb-4">
         <div class="text-center text-gray-800 text-xl">
             {{ $thread->title }}
+
+            <div class="text-sm">
+                <div>{{ $thread->author->name }}</div>
+                <div class="text-gray-600 text-xs">{{ $thread->published_at }}</div>
+            </div>
         </div>
         <div class="text-center pt-2 text-gray-800">
-            {{ $thread->body }}
+          {{ $thread->body }}
         </div>
     </div>
 
     <div>
         @forelse($replies as $reply)
-            <div class="text-gray-800 text-sm">
-                {{ $reply->author->name }}: {{ $reply->body }} <span class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>
-            </div>
-
+            @include('threads.reply')
         @empty
             No replies yet.
         @endforelse

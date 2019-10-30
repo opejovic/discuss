@@ -1883,12 +1883,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['currentRoute'],
   data: function data() {
     return {
       isOpen: false,
       csrfToken: null
     };
+  },
+  computed: {
+    activeRouteIndex: function activeRouteIndex() {
+      if (this.currentRoute === 'threads.index') {
+        return 'bg-gray-200';
+      }
+    },
+    activeRouteCreate: function activeRouteCreate() {
+      if (this.currentRoute === 'threads.create') {
+        return 'bg-gray-200';
+      }
+    }
   },
   methods: {
     toggle: function toggle() {
@@ -19537,7 +19558,38 @@ var render = function() {
         "div",
         { staticClass: "flex items-center justify-between px-6 py-4 sm:p-0" },
         [
-          _vm._m(0),
+          _c("div", [
+            _c(
+              "a",
+              {
+                staticClass: "text-gray-800 text-2xl font-bold",
+                attrs: { href: "/" }
+              },
+              [_vm._v("\n                discuss.\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass:
+                  "px-4 pt-2 pb-2 mt-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+                class: _vm.activeRouteIndex,
+                attrs: { href: "/threads" }
+              },
+              [_vm._v("\n                threads\n            ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass:
+                  "px-4 pt-2 pb-2 mt-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+                class: _vm.activeRouteCreate,
+                attrs: { href: "/threads/create" }
+              },
+              [_vm._v("\n                new thread\n            ")]
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "sm:hidden" }, [
             _c(
@@ -19668,23 +19720,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "a",
-        {
-          staticClass: "text-gray-800 text-2xl font-bold",
-          attrs: { href: "/" }
-        },
-        [_vm._v("\n                discuss.\n            ")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -6,7 +6,7 @@
             {{ $thread->title }}
 
             <div class="text-sm">
-                <div>{{ $thread->author->name }}</div>
+                <a class="text-gray-600 underline" href="#">{{ $thread->author->name }}</a>
                 <div class="text-gray-600 text-xs">{{ $thread->published_at }}</div>
             </div>
         </div>
@@ -14,6 +14,8 @@
           {{ $thread->body }}
         </div>
     </div>
+
+    <div class="border-b-4 w-1/6 mx-auto mb-6 mt-2 border-red-500"></div>
 
     <div>
         @forelse($replies as $reply)
@@ -24,15 +26,8 @@
     </div>
 
     @if (Auth::check())
-    <div class="w-1/2 pt-2">
-        <form action="{{ route('replies.store', $thread) }}" method="POST">
-            @csrf
-            <div>
-                <textarea class="w-full text-gray-700 placeholder-gray-500 text-sm border p-3 rounded-lg focus:outline-none" name="body" id="" rows="4" placeholder="Have something to say?"></textarea>
-            </div>
-
-            <button type="submit" class="rounded-lg shadow bg-gray-200 hover:bg-gray-300 block px-4 py-2 uppercase text-gray-700 text-xs">Submit</button>
-        </form>
-    </div>
+        @include('threads.reply-form')
+    @else
+        <div class="text-sm pt-4"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="{{ route('login') }}">Sign in</a> if you want to join the discussion.</div>
     @endif
 @endsection

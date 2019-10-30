@@ -7,7 +7,7 @@
                     discuss.
                 </a>
             </div>
-            
+
             <!--  right section -->
             <!-- hamburger icon -->
             <div class="sm:hidden">
@@ -20,13 +20,19 @@
             </div>
         </div>
         <div class="px-4 pt-2 pb-4 sm:flex sm:items-center sm:p-0" :class="isOpen ? 'block' : 'hidden'">
+            <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+               href="/threads/create">new thread</a>
+
+            <a :class="activeRouteIndex" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                href="/threads">all threads</a>
+
             <!-- guest -->
-            <a v-if="! auth" class="block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold"
+            <a v-if="! auth" :class="activeRouteLogin" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                 href="/login">login</a>
 
-            <a v-if="! auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+            <a v-if="! auth" :class="activeRouteRegister" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                 href="/register">register</a>
-            
+
             <!-- else -->
             <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                 href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="auth.name">
@@ -45,11 +51,35 @@
 
 <script>
     export default {
+        props: ['currentRoute'],
         data() {
             return {
                 isOpen: false,
                 csrfToken: null,
             }
+        },
+
+        computed: {
+            activeRouteIndex() {
+                if (this.currentRoute === 'threads.index') {
+                    return 'bg-gray-200'
+                }
+            },
+            activeRouteCreate() {
+                if (this.currentRoute === 'threads.create') {
+                    return 'bg-gray-200'
+                }
+            },
+            activeRouteRegister() {
+                if (this.currentRoute === 'register') {
+                    return 'bg-gray-200'
+                }
+            },
+            activeRouteLogin() {
+                if (this.currentRoute === 'login') {
+                    return 'bg-gray-200'
+                }
+            },
         },
 
         methods: {

@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="pt-10">
-                    <button type="submit" class="block py-2 bg-gray-100 shadow rounded-lg sm:w-1/2 w-full mx-auto hover:bg-gray-200">
+                    <button type="submit" class="block py-2 text-gray-700 bg-gray-100 text-sm shadow rounded-lg sm:w-1/2 w-full mx-auto hover:bg-gray-200">
                         {{ __('Login') }}
                     </button>
 

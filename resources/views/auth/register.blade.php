@@ -3,7 +3,7 @@
 @section('content')
 <div class="px-1">
     <div class="px-2 py-8 sm:p-8 lg:w-2/5 sm:w-3/5 mx-auto rounded-lg border border-gray-200 text-center">
-        <img class="xl:w-48 w-40 px-5 mx-auto pb-6" src="/images/register.svg" alt="">
+        <img class="xl:w-56 w-48 px-5 mx-auto pb-6" src="/images/register.svg" alt="">
 
         <div class="card-body">
             <form method="POST" action="{{ route('register') }}">
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <button type="submit" class="block py-2 bg-gray-100 shadow rounded-lg sm:w-1/2 w-full mx-auto hover:bg-gray-200">
+                    <button type="submit" class="block py-2 text-gray-700 text-sm bg-gray-100 shadow rounded-lg sm:w-1/2 w-full mx-auto hover:bg-gray-200">
                         {{ __('Register') }}
                     </button>
                 </div>

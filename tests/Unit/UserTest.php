@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,8 +27,9 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
         $user->publishThread([
-           'title' => 'Sample title',
-           'body' => 'Sample body'
+            'channel_id' => factory(Channel::class)->create()->id,
+            'title' => 'Sample title',
+            'body' => 'Sample body'
         ]);
 
         $this->assertCount(1, $user->threads);

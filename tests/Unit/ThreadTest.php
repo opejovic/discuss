@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
+use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +27,7 @@ class ThreadTest extends TestCase
     {
         $thread = factory(Thread::class)->make(['id' => 1]);
 
-        $this->assertEquals('threads/1', $thread->path());
+        $this->assertEquals("threads/{$thread->channel->slug}/1", $thread->path());
     }
 
     /** @test */
@@ -67,5 +69,13 @@ class ThreadTest extends TestCase
         ]);
 
         $this->assertEquals(1, $this->thread->fresh()->replies->count());
+    }
+
+    /** @test */
+    function it_belongs_to_a_channel()
+    {
+        $thread = factory(Thread::class)->create();
+
+        $this->assertInstanceOf(Channel::class, $thread->channel);
     }
 }

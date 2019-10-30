@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
@@ -31,10 +32,11 @@ class RepliesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Thread $thread
+     * @param  Channel $channel
+     * @param  Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function store(Thread $thread)
+    public function store(Channel $channel, Thread $thread)
     {
         $validated = request()->validate([
            'body' => ['required', 'min:3']

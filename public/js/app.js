@@ -1889,8 +1889,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['currentRoute'],
   data: function data() {
@@ -1907,6 +1905,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     activeRouteCreate: function activeRouteCreate() {
       if (this.currentRoute === 'threads.create') {
+        return 'bg-gray-200';
+      }
+    },
+    activeRouteRegister: function activeRouteRegister() {
+      if (this.currentRoute === 'register') {
+        return 'bg-gray-200';
+      }
+    },
+    activeRouteLogin: function activeRouteLogin() {
+      if (this.currentRoute === 'login') {
         return 'bg-gray-200';
       }
     }
@@ -19558,38 +19566,7 @@ var render = function() {
         "div",
         { staticClass: "flex items-center justify-between px-6 py-4 sm:p-0" },
         [
-          _c("div", [
-            _c(
-              "a",
-              {
-                staticClass: "text-gray-800 text-2xl font-bold",
-                attrs: { href: "/" }
-              },
-              [_vm._v("\n                discuss.\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass:
-                  "px-4 pt-2 pb-2 mt-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
-                class: _vm.activeRouteIndex,
-                attrs: { href: "/threads" }
-              },
-              [_vm._v("\n                threads\n            ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass:
-                  "px-4 pt-2 pb-2 mt-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
-                class: _vm.activeRouteCreate,
-                attrs: { href: "/threads/create" }
-              },
-              [_vm._v("\n                new thread\n            ")]
-            )
-          ]),
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "sm:hidden" }, [
             _c(
@@ -19641,12 +19618,37 @@ var render = function() {
           class: _vm.isOpen ? "block" : "hidden"
         },
         [
+          _vm.auth
+            ? _c(
+                "a",
+                {
+                  staticClass:
+                    "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+                  class: _vm.activeRouteCreate,
+                  attrs: { href: "/threads/create" }
+                },
+                [_vm._v("new thread")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+              class: _vm.activeRouteIndex,
+              attrs: { href: "/threads" }
+            },
+            [_vm._v("all threads")]
+          ),
+          _vm._v(" "),
           !_vm.auth
             ? _c(
                 "a",
                 {
                   staticClass:
-                    "block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold",
+                    "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+                  class: _vm.activeRouteLogin,
                   attrs: { href: "/login" }
                 },
                 [_vm._v("login")]
@@ -19659,6 +19661,7 @@ var render = function() {
                 {
                   staticClass:
                     "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+                  class: _vm.activeRouteRegister,
                   attrs: { href: "/register" }
                 },
                 [_vm._v("register")]
@@ -19720,7 +19723,23 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "a",
+        {
+          staticClass: "text-gray-800 text-2xl font-bold",
+          attrs: { href: "/" }
+        },
+        [_vm._v("\n                discuss.\n            ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

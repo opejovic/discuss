@@ -25,19 +25,20 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function guests_cannot_discuss_in_forum()
     {
-        $this->post('threads/1/replies', [])->assertRedirect('login');
+        $this->post('threads/asd/1/replies', [])->assertRedirect('login');
     }
 
     /** @test */
     function authenticated_users_can_discuss_in_threads()
     {
+        $this->withoutExceptionHandling();
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
-            ->post(route('replies.store', $this->thread), [
+            ->post(route('replies.store', [$this->thread->channel, $this->thread]), [
                 'body' => 'Very nice read! Keep up the good work!'
             ]);
 
-        $response->assertRedirect(route('threads.show', $this->thread->id));
+        $response->assertRedirect($this->thread->path());
         $this->get($this->thread->path())->assertSee('Very nice read! Keep up the good work!');
         $this->assertEquals(1, Reply::all()->count());
         $this->assertTrue(Reply::first()->author->is($this->user));
@@ -48,7 +49,7 @@ class DiscussInForumTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
-            ->post(route('replies.store', $this->thread), [
+            ->post(route('replies.store', [$this->thread->channel, $this->thread]), [
                 'body' => ''
             ]);
 

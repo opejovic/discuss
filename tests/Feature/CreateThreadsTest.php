@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Channel;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -23,15 +24,17 @@ class CreateThreadsTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->assertCount(0, $user->threads);
+        $channel = factory(Channel::class)->create();
 
         $response = $this->actingAs($user)->post(route('threads.store'), [
+            'channel_id' => $channel->id,
             'title' => 'My first thread',
             'body' => 'Lorem ipsum dolor sit amet'
         ]);
 
         $threads = $user->fresh()->threads;
         $this->assertCount(1, $threads);
-        $response->assertRedirect(route('threads.show', $threads->first()));
+        $response->assertRedirect($threads->first()->path());
     }
 
     /** @test */

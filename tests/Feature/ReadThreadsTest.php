@@ -34,7 +34,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     function a_user_can_read_a_thread()
     {
-        $response = $this->get(route('threads.show', $this->thread));
+        $response = $this->get($this->thread->path());
 
         $response->assertSuccessful();
         $response->assertViewIs('threads.show');
@@ -47,7 +47,7 @@ class ReadThreadsTest extends TestCase
     {
         $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
 
-        $response = $this->get("threads/{$this->thread->id}");
+        $response = $this->get($this->thread->path());
 
         $response->assertSuccessful();
         $response->assertSee($reply->body);

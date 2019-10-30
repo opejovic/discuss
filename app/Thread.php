@@ -41,7 +41,7 @@ class Thread extends Model
     /**
      * Add a new reply.
      *
-     * @param $attributes
+     * @param  array $attributes
      * @return Model
      */
     public function addReply($attributes)

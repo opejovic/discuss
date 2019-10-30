@@ -36,13 +36,13 @@ class RepliesController extends Controller
      */
     public function store(Thread $thread)
     {
-        request()->validate([
+        $validated = request()->validate([
            'body' => ['required', 'min:3']
         ]);
 
         $thread->addReply([
             'user_id' => auth()->id(),
-            'body' => request('body'),
+            'body' => $validated['body']
         ]);
 
         return back();

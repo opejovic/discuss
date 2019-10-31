@@ -31,7 +31,6 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function authenticated_users_can_discuss_in_threads()
     {
-        $this->withoutExceptionHandling();
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
             ->post(route('replies.store', [$this->thread->channel, $this->thread]), [

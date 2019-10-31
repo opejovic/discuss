@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Channel;
+use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -24,10 +25,10 @@ class CreateThreadsTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->assertCount(0, $user->threads);
-        $channel = factory(Channel::class)->create();
+        $channel = factory(Channel::class)->create(['id' => 1]);
 
         $response = $this->actingAs($user)->post(route('threads.store'), [
-            'channel_id' => $channel->id,
+            'channel_id' => $channel->fresh()->id,
             'title' => 'My first thread',
             'body' => 'Lorem ipsum dolor sit amet'
         ]);
@@ -40,26 +41,44 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function title_is_required()
     {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs($user)->post(route('threads.store'), [
-            'title' => '',
-            'body' => 'Lorem ipsum dolor sit amet'
-        ]);
-
-        $response->assertSessionHasErrors('title');
+        $this->publishThread([
+            'title' => null,
+        ])->assertSessionHasErrors('title');
     }
 
     /** @test */
     function body_is_required()
     {
+        $this->publishThread([
+            'body' => null,
+        ])->assertSessionHasErrors('body');
+    }
+
+    /** @test */
+    function valid_channel_is_required()
+    {
+        $this->publishThread([
+           'channel_id' => 999
+        ])->assertSessionHasErrors('channel_id');
+
+        $this->publishThread([
+           'channel_id' => null
+        ])->assertSessionHasErrors('channel_id');
+    }
+
+    /** @test */
+    function channel_must_be_existing_channel()
+    {
+        $this->publishThread([
+           'channel_id' => '123123'
+        ])->assertSessionHasErrors('channel_id');
+    }
+
+    public function publishThread($overrides)
+    {
         $user = factory(User::class)->create();
+        $thread = factory(Thread::class)->make($overrides)->toArray();
 
-        $response = $this->actingAs($user)->post(route('threads.store'), [
-            'title' => 'Title',
-            'body' => ''
-        ]);
-
-        $response->assertSessionHasErrors('body');
+        return $this->actingAs($user)->post(route('threads.store'), $thread);
     }
 }

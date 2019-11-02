@@ -8,7 +8,7 @@
                 </a>
             </div>
 
-            <!--  right section -->
+            <!-- right section -->
             <!-- hamburger icon -->
             <div class="sm:hidden">
                 <button @click="toggle()" class="block focus:outline-none text-gray-500 hover:text-gray-600">
@@ -20,13 +20,13 @@
             </div>
         </div>
         <div class="px-4 pt-2 pb-4 sm:flex sm:items-center sm:p-0" :class="isOpen ? 'block' : 'hidden'">
-            <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-               href="/threads/create">new thread</a>
-
-            <channel-search-select :channels="channels"></channel-search-select>
+            <channel-search-select class="block" :channels="channels"></channel-search-select>
 
             <a :class="activeRouteIndex" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                 href="/threads">all threads</a>
+
+            <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+               href="/threads/create">new thread</a>
 
             <!-- guest -->
             <a v-if="! auth" :class="activeRouteLogin" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"

@@ -1,11 +1,11 @@
 <template>
     <on-click-outside :do="close">
         <div class="relative" :class="{ 'is-active': isOpen }">
-            <button @click="open()" :class="isOpen ? 'bg-gray-200' : ''" class="focus:outline-none mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2">
+            <a @click="open()" :class="isOpen ? 'bg-gray-200' : ''" class="focus:outline-none mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2 cursor-pointer">
                 <span>
                     channels
                 </span>
-            </button>
+            </a>
 
             <transition
                 enter-active-class="transition-all transition-fastest ease-out-quad"

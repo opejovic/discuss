@@ -20382,10 +20382,10 @@ var render = function() {
       { staticClass: "relative", class: { "is-active": _vm.isOpen } },
       [
         _c(
-          "button",
+          "a",
           {
             staticClass:
-              "focus:outline-none mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+              "focus:outline-none mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2 cursor-pointer",
             class: _vm.isOpen ? "bg-gray-200" : "",
             on: {
               click: function($event) {
@@ -20639,6 +20639,22 @@ var render = function() {
           class: _vm.isOpen ? "block" : "hidden"
         },
         [
+          _c("channel-search-select", {
+            staticClass: "block",
+            attrs: { channels: _vm.channels }
+          }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass:
+                "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
+              class: _vm.activeRouteIndex,
+              attrs: { href: "/threads" }
+            },
+            [_vm._v("all threads")]
+          ),
+          _vm._v(" "),
           _vm.auth
             ? _c(
                 "a",
@@ -20651,19 +20667,6 @@ var render = function() {
                 [_vm._v("new thread")]
               )
             : _vm._e(),
-          _vm._v(" "),
-          _c("channel-search-select", { attrs: { channels: _vm.channels } }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
-              class: _vm.activeRouteIndex,
-              attrs: { href: "/threads" }
-            },
-            [_vm._v("all threads")]
-          ),
           _vm._v(" "),
           !_vm.auth
             ? _c(

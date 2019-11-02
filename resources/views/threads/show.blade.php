@@ -21,7 +21,7 @@
         @forelse($replies as $reply)
             @include('threads.reply')
         @empty
-            No replies yet.
+            <div class="text-gray-600">No replies yet.</div>
         @endforelse
     </div>
 

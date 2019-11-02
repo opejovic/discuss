@@ -35,6 +35,9 @@ class Thread extends Model
         return $this->hasMany(Reply::class, 'thread_id');
     }
 
+    /**
+     * @return string
+     */
     public function getPublishedAtAttribute()
     {
         return Carbon::parse($this->created_at)->format('d M Y');

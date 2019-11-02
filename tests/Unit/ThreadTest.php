@@ -2,13 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Channel;
+use App\User;
 use App\Reply;
 use App\Thread;
-use App\User;
-use Illuminate\Support\Facades\App;
+use App\Channel;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ThreadTest extends TestCase

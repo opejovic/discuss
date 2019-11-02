@@ -2,13 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Reply;
 use App\User;
-use http\Exception\InvalidArgumentException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use App\Reply;
 use App\Thread;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DiscussInForumTest extends TestCase
 {

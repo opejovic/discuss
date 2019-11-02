@@ -2,11 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Channel;
 use App\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Channel;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ChannelTest extends TestCase
 {

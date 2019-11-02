@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="px-1">
-    <div class="px-2 py-8 sm:p-8 lg:w-2/5 sm:w-3/5 mx-auto rounded-lg border border-gray-200 text-center">
+    <div class="px-2 py-8 sm:p-8 lg:w-2/5 sm:w-3/5 mx-auto rounded-lg sm:border border-gray-200 text-center">
         <img class="xl:w-56 w-48 px-5 mx-auto pb-6" src="/images/register.svg" alt="">
 
         <div class="card-body">

@@ -11,10 +11,11 @@
 
                     <div class="pb-4">
                         <label class="block mt-4">
-                            <select name="channel_id" class="form-select mt-1 block w-full text-gray-700 rounded-lg">
+                            <select name="channel_id" class="form-select mt-1 block w-full text-gray-700 rounded-lg py-3">
                                 <option value="">Select a channel</option>
+
                                 @foreach(\App\Channel::all() as $channel)
-                                    <option value="{{ $channel->id }}">
+                                    <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
                                         {{ $channel->slug }}
                                     </option>
                                 @endforeach
@@ -42,7 +43,7 @@
 
                     <div class="pb-4">
                         <div class="">
-                            <textarea id="body" class="border text-gray-700 rounded-lg w-full focus:outline-none placeholder-gray-400 place p-3 @error('body') is-invalid @enderror" name="body" value="{{ old('body') }}" required placeholder="Body" rows="8"></textarea>
+                            <textarea id="body" class="border text-gray-700 rounded-lg w-full focus:outline-none placeholder-gray-400 place p-3 @error('body') is-invalid @enderror" name="body" required placeholder="Body" rows="8">{{ old('body') }}</textarea>
 
                             @error('body')
                                 <span class="text-red-500 text-xs font-light" role="alert">

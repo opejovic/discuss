@@ -23,6 +23,8 @@
             <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                href="/threads/create">new thread</a>
 
+            <channel-search-select :channels="channels"></channel-search-select>
+
             <a :class="activeRouteIndex" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
                 href="/threads">all threads</a>
 
@@ -50,8 +52,11 @@
 </template>
 
 <script>
+    import ChannelSearchSelect from "./ChannelSearchSelect"
+
     export default {
-        props: ['currentRoute'],
+        components: { ChannelSearchSelect },
+        props: ['currentRoute', 'channels'],
         data() {
             return {
                 isOpen: false,

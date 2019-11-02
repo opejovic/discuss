@@ -10,8 +10,27 @@
                     @csrf
 
                     <div class="pb-4">
+                        <label class="block mt-4">
+                            <select name="channel_id" class="form-select mt-1 block w-full text-gray-700 rounded-lg">
+                                <option value="">Select a channel</option>
+                                @foreach(\App\Channel::all() as $channel)
+                                    <option value="{{ $channel->id }}">
+                                        {{ $channel->slug }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('channel_id')
+                                <span class="text-red-500 text-xs font-light" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </label>
+                    </div>
+
+                    <div class="pb-4">
                         <div class="">
-                            <input id="title" type="text" class="border text-gray-700 rounded-lg w-full focus:outline-none h-12 text-center placeholder-gray-400 @error('name') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="Title">
+                            <input id="title" type="text" class="border text-gray-700 rounded-lg w-full focus:outline-none h-12 placeholder-gray-400 p-3 @error('name') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus placeholder="Title">
 
                             @error('title')
                                 <span class="text-red-500 text-xs font-light" role="alert">
@@ -23,7 +42,7 @@
 
                     <div class="pb-4">
                         <div class="">
-                            <textarea id="body" class="border text-gray-700 rounded-lg w-full focus:outline-none text-center placeholder-gray-400 place p-2 @error('body') is-invalid @enderror" name="body" value="{{ old('body') }}" required placeholder="Body" rows="8"></textarea>
+                            <textarea id="body" class="border text-gray-700 rounded-lg w-full focus:outline-none placeholder-gray-400 place p-3 @error('body') is-invalid @enderror" name="body" value="{{ old('body') }}" required placeholder="Body" rows="8"></textarea>
 
                             @error('body')
                                 <span class="text-red-500 text-xs font-light" role="alert">

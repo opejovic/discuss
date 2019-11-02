@@ -3,9 +3,9 @@
 @section('content')
     @foreach ($threads as $thread)
     <div class="">
-        <a href="{{ $thread->path() }}">
+        <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">
             {{ $thread->title }}
         </a>
     </div>
-    @endforeach    
+    @endforeach
 @endsection

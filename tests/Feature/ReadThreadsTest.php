@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use Tests\TestCase;
@@ -51,5 +52,22 @@ class ReadThreadsTest extends TestCase
 
         $response->assertSuccessful();
         $response->assertSee($reply->body);
+    }
+
+    /** @test */
+    function user_can_filter_threads_by_their_channel()
+    {
+        $this->withoutExceptionHandling();
+        // Arrange - two threads, one in channel, and other not in channel
+        $channel = factory(Channel::class)->create();
+        $threadInChannel = factory(Thread::class)->create(['channel_id' => $channel->id]);
+        $otherThread = factory(Thread::class)->create();
+
+        // Act - get some endpoint
+        $response = $this->get("threads/{$channel->slug}");
+
+        // Assert - the thread in channel is returned only
+        $response->assertSee($threadInChannel->title);
+        $response->assertDontSee($otherThread->title);
     }
 }

@@ -21,7 +21,7 @@
 <body>
     <div id="app" class="min-h-screen pb-24">
         <!-- navigation -->
-        <navigation-bar current-route="{{ Route::currentRouteName() }}" :channels="{{ \App\Channel::all() }}"></navigation-bar>
+        <navigation-bar current-route="{{ Route::currentRouteName() }}" :channels="{{ $channels }}"></navigation-bar>
 
         <main class="py-4 px-6">
             @yield('content')

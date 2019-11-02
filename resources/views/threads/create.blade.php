@@ -14,7 +14,7 @@
                             <select name="channel_id" class="form-select mt-1 block w-full text-gray-700 rounded-lg py-3">
                                 <option value="">Select a channel</option>
 
-                                @foreach(\App\Channel::all() as $channel)
+                                @foreach($channels as $channel)
                                     <option value="{{ $channel->id }}" {{ old('channel_id') == $channel->id ? 'selected' : '' }}>
                                         {{ $channel->slug }}
                                     </option>

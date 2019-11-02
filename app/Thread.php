@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -60,5 +61,15 @@ class Thread extends Model
     public function channel()
     {
         return $this->belongsTo(Channel::class, 'channel_id');
+    }
+
+    /**
+     * @param  $filters
+     * @param  $query
+     * @return mixed
+     */
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
     }
 }

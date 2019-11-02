@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
 use App\Thread;
+use App\Channel;
 use Illuminate\Http\Request;
+use App\Filters\ThreadFilters;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadsController extends Controller
@@ -12,18 +14,15 @@ class ThreadsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  Channel $channel
+     * @param  ThreadFilters $filters
+     * @param  Channel       $channel
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Channel $channel = null)
+    public function index(ThreadFilters $filters, Channel $channel = null)
     {
-        if ($channel) {
-            $threads = $channel->threads()->latest();
-        } else {
-            $threads = Thread::latest();
-        }
+        $threads = $this->getThreads($filters, $channel);
 
-        return view('threads.index', ['threads' => $threads->get()]);
+        return view('threads.index', ['threads' => $threads]);
     }
 
     /**
@@ -102,5 +101,21 @@ class ThreadsController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    /**
+     * @param  ThreadFilters $filters
+     * @param  Channel       $channel
+     * @return Collection
+     */
+    protected function getThreads(ThreadFilters $filters, Channel $channel = null): Collection
+    {
+        $threads = Thread::latest();
+
+        if ($channel) {
+            $threads = $channel->threads()->latest();
+        }
+
+        return $threads->filter($filters)->get();
     }
 }

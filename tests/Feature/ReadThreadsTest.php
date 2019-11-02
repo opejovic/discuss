@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Channel;
+use App\User;
 use App\Reply;
 use App\Thread;
+use App\Channel;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReadThreadsTest extends TestCase
@@ -57,17 +57,26 @@ class ReadThreadsTest extends TestCase
     /** @test */
     function user_can_filter_threads_by_their_channel()
     {
-        $this->withoutExceptionHandling();
-        // Arrange - two threads, one in channel, and other not in channel
         $channel = factory(Channel::class)->create();
         $threadInChannel = factory(Thread::class)->create(['channel_id' => $channel->id]);
         $otherThread = factory(Thread::class)->create();
 
-        // Act - get some endpoint
         $response = $this->get("threads/{$channel->slug}");
 
-        // Assert - the thread in channel is returned only
         $response->assertSee($threadInChannel->title);
+        $response->assertDontSee($otherThread->title);
+    }
+
+    /** @test */
+    function user_can_filter_threads_by_any_username()
+    {
+        $john = factory(User::class)->create(['name' => 'John']);
+        $threadByJohn = factory(Thread::class)->create(['user_id' => $john->id]);
+        $otherThread = factory(Thread::class)->create();
+
+        $response = $this->get('/threads?by=John');
+
+        $response->assertSee($threadByJohn->title);
         $response->assertDontSee($otherThread->title);
     }
 }

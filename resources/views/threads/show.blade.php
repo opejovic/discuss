@@ -17,6 +17,14 @@
 
     <div class="border-b-4 w-1/6 mx-auto mb-6 mt-2 border-red-500"></div>
 
+    <like-button
+        :item="{{ $thread }}"
+        store="{{ route('likes.store', $thread) }}"
+        destroy="{{ route('likes.destroy', $thread) }}"
+    >
+
+    </like-button>
+
     <div class="text-gray-600 pb-4">
         {{ $thread->replies()->count() }} {{ Str::plural('comment', $thread->replies()->count()) }}
     </div>

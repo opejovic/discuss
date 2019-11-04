@@ -3,12 +3,26 @@
 namespace App;
 
 use Carbon\Carbon;
-use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
     protected $guarded = [];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replies_count', function (Builder $builder) {
+            $builder->withCount('replies');
+        });
+    }
 
     /**
      * Get a string representation of threads path.

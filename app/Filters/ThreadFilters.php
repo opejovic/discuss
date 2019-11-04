@@ -5,21 +5,31 @@ namespace App\Filters;
 
 
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
 class ThreadFilters extends Filters
 {
-    protected $filters = ['by'];
+    protected $filters = ['by', 'popular'];
 
     /**
      * @param  $username
      * @return Builder
      */
-    public function by($username): Builder
+    protected function by($username): Builder
     {
         $user = User::whereName($username)->firstOrFail();
 
         return $this->builder->where('user_id', $user->id);
+    }
+
+    /**
+     * @return Builder
+     */
+    protected function popular(): Builder
+    {
+        // Clear the builder from existing orders
+        $this->builder->getQuery()->orders = [];
+
+        return $this->builder->orderBy('replies_count', 'desc');
     }
 }

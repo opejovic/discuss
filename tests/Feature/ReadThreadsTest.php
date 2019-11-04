@@ -79,4 +79,27 @@ class ReadThreadsTest extends TestCase
         $response->assertSee($threadByJohn->title);
         $response->assertDontSee($otherThread->title);
     }
+
+    /** @test */
+    function user_can_filter_threads_by_popularity()
+    {
+        // Arrange: Two threads, one with 3 replies, one with 2 replies, and one with no replies
+        $threadWithThreeReplies = factory(Thread::class)->create(['created_at' => now()->subDay()]);
+        $threadWithTwoReplies = factory(Thread::class)->create(['created_at' => now()->addDay()]);
+        $threadWithNoReplies = factory(Thread::class)->create(['created_at' => now()->subWeek()]);
+
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithThreeReplies]);
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithTwoReplies]);
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithNoReplies]);
+
+        // Act: When We filter by popularity (eg. /threads?popular)
+        $response = $this->get('threads?popular');
+
+        // Assert: Threads should be returned in proper order (by replies count)
+        $response->assertSeeInOrder([
+            $threadWithThreeReplies->title,
+            $threadWithTwoReplies->title,
+            $threadWithNoReplies->title
+        ]);
+    }
 }

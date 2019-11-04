@@ -1932,6 +1932,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    toggle: function toggle() {
+      return this.isOpen ? this.close() : this.open();
+    },
     open: function open() {
       var _this2 = this;
 
@@ -20469,7 +20472,7 @@ var render = function() {
             class: _vm.isOpen ? "bg-gray-200" : "",
             on: {
               click: function($event) {
-                return _vm.open()
+                return _vm.toggle()
               }
             }
           },
@@ -20660,7 +20663,7 @@ var render = function() {
     "button",
     {
       staticClass:
-        "mx-auto items-center rounded-full border border-gray-200 inline-block w-12 h-12 flex justify-center text-xs text-gray-600 leading-loose hover:text-red-500 hover:underline focus:outline-none",
+        "mx-auto items-center rounded-full border border-gray-200 inline-block w-12 h-12 flex justify-center text-xs text-gray-600 leading-loose hover:text-red-500 hover:border-red-300 focus:outline-none",
       class: _vm.isLiked ? "border-red-600" : "",
       domProps: { textContent: _vm._s(_vm.isLiked ? "unlike" : "like") },
       on: {

@@ -25,7 +25,7 @@
 
     </like-button>
 
-    <div class="text-gray-600 pb-4">
+    <div class="text-gray-600 py-4">
         {{ $thread->replies()->count() }} {{ Str::plural('comment', $thread->replies()->count()) }}
     </div>
 

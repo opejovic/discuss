@@ -37,11 +37,11 @@ class ThreadLikesController extends Controller
      */
     public function store(Thread $thread)
     {
-        abort_if($thread->hasBeenLiked(), 403);
+        abort_if($thread->hasBeenLiked, 403);
 
         $thread->like();
 
-        return response([], 201);
+        return response(['Thread liked.'], 201);
     }
 
     /**
@@ -81,11 +81,15 @@ class ThreadLikesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Thread $thread
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Thread $thread)
     {
-        //
+        abort_unless($thread->hasBeenLiked, 403);
+
+        $thread->unlike();
+
+        return response(['Thread unliked.'], 200);
     }
 }

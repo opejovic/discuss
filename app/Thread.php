@@ -106,9 +106,19 @@ class Thread extends Model
     }
 
     /**
+     * Thread can be unliked.
+     *
+     * @return Model
+     */
+    public function unlike()
+    {
+        return $this->likes()->where('user_id', auth()->id())->first()->delete();
+    }
+
+    /**
      * @return bool
      */
-    public function hasBeenLiked()
+    public function getHasBeenLikedAttribute()
     {
         return $this->likes()->where('user_id', auth()->id())->exists();
     }

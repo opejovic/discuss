@@ -93,6 +93,17 @@ class ThreadTest extends TestCase
         auth()->login(factory(User::class)->create());
         $this->thread->like();
 
-        $this->assertTrue($this->thread->hasBeenLiked());
+        $this->assertTrue($this->thread->hasBeenLiked);
+    }
+
+    /** @test */
+    function it_can_be_unliked()
+    {
+        auth()->login(factory(User::class)->create());
+        $this->thread->like();
+        $this->assertTrue($this->thread->hasBeenLiked);
+
+        $this->thread->unlike();
+        $this->assertFalse($this->thread->fresh()->hasBeenLiked);
     }
 }

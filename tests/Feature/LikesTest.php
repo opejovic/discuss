@@ -39,5 +39,22 @@ class LikesTest extends TestCase
         $response->assertForbidden();
         $this->assertEquals(1, $thread->fresh()->likes()->count());
     }
+
+    /** @test */
+    function authenticated_user_can_unlike_any_thread_they_have_liked()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+        $thread = factory(Thread::class)->create();
+
+        auth()->login($user);
+        $thread->like();
+        $this->assertEquals(1, $thread->likes()->count());
+
+        $response = $this->delete(route('likes.destroy', $thread));
+
+        $response->assertSuccessful();
+        $this->assertEquals(0, $thread->fresh()->likes()->count());
+    }
 }
 

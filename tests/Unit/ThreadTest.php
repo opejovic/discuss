@@ -76,4 +76,23 @@ class ThreadTest extends TestCase
 
         $this->assertInstanceOf(Channel::class, $thread->channel);
     }
+
+    /** @test */
+    function it_can_be_liked()
+    {
+        auth()->login(factory(User::class)->create());
+
+        $this->thread->like();
+
+        $this->assertEquals(1, $this->thread->likes()->count());
+    }
+
+    /** @test */
+    function it_knows_if_it_has_been_liked()
+    {
+        auth()->login(factory(User::class)->create());
+        $this->thread->like();
+
+        $this->assertTrue($this->thread->hasBeenLiked());
+    }
 }

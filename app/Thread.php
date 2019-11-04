@@ -78,6 +78,14 @@ class Thread extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likable');
+    }
+
+    /**
      * @param  $filters
      * @param  $query
      * @return mixed
@@ -85,5 +93,23 @@ class Thread extends Model
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    /**
+     * Thread can be liked.
+     *
+     * @return Model
+     */
+    public function like()
+    {
+        return $this->likes()->create(['user_id' => auth()->id()]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasBeenLiked()
+    {
+        return $this->likes()->where('user_id', auth()->id())->exists();
     }
 }

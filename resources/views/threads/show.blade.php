@@ -17,12 +17,16 @@
 
     <div class="border-b-4 w-1/6 mx-auto mb-6 mt-2 border-red-500"></div>
 
+    <div class="text-gray-600 pb-4">
+        {{ $thread->replies()->count() }} {{ Str::plural('comment', $thread->replies()->count()) }}
+    </div>
+
     <div>
-        @forelse($replies as $reply)
+        @foreach($replies as $reply)
             @include('threads.reply')
-        @empty
-            <div class="text-gray-600">No replies yet.</div>
-        @endforelse
+        @endforeach
+
+        {{ $replies->links() }}
     </div>
 
     @if (Auth::check())

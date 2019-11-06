@@ -2,12 +2,21 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    /**
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     use Notifiable;
 
     /**
@@ -52,5 +61,10 @@ class User extends Authenticatable
     public function publishThread($attributes)
     {
         return $this->threads()->create($attributes);
+    }
+
+    public function getMemberSinceAttribute()
+    {
+        return Carbon::parse($this->created_at)->format('M Y');
     }
 }

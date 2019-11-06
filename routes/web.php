@@ -28,5 +28,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');
-
 Route::get('threads/{channel}/{thread}', 'ThreadsController@show')->name('threads.show');
+
+Route::get('profiles/{user}', 'ProfilesController@show')->name('profile');

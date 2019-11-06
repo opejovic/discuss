@@ -9,8 +9,8 @@
 
             <div class="text-gray-700 text-sm pt-2">
                 <div class="uppercase text-xs text-gray-500">Written by</div>
-                <a href="#" class="border-b-2">
-                    {{ $thread->authors_name }}
+                <a href="{{ route('profile', $thread->author) }}" class="border-b-2">
+                    {{ $thread->author->name }}
                 </a>
             </div>
 
@@ -18,7 +18,7 @@
                 {{ $thread->published_at }}
             </div>
 
-            <div class="border-b-2 sm:w-1/12 w-2/5 mx-auto mb-6 mt-2 border-red-500 py-2"></div>
+            @include('components.red-line')
         </div>
     @endforeach
 @endsection

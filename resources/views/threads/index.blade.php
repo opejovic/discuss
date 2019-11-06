@@ -10,7 +10,7 @@
             <div class="text-gray-700 text-sm pt-2">
                 <div class="uppercase text-xs text-gray-500">Written by</div>
                 <a href="#" class="border-b-2">
-                    {{ $thread->author->name }}
+                    {{ $thread->authors_name }}
                 </a>
             </div>
 

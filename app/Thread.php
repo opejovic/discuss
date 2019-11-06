@@ -3,12 +3,23 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Traits\Likable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
+    use Likable;
+
+    /**
+     * Attributes that are not mass assignable.
+     */
     protected $guarded = [];
+
+    /**
+     * Relationships to include in every query.
+     */
+    protected $with = ['channel'];
 
     /**
      * The "booting" method of the model.
@@ -21,6 +32,10 @@ class Thread extends Model
 
         static::addGlobalScope('replies_count', function (Builder $builder) {
             $builder->withCount('replies');
+        });
+
+        static::addGlobalScope('author', function (Builder $builder) {
+            $builder->with('author');
         });
     }
 
@@ -47,7 +62,7 @@ class Thread extends Model
      */
     public function replies()
     {
-        return $this->hasMany(Reply::class, 'thread_id');
+        return $this->hasMany(Reply::class, 'thread_id')->with('author');
     }
 
     /**
@@ -78,14 +93,6 @@ class Thread extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likable');
-    }
-
-    /**
      * @param  $filters
      * @param  $query
      * @return mixed
@@ -95,31 +102,4 @@ class Thread extends Model
         return $filters->apply($query);
     }
 
-    /**
-     * Thread can be liked.
-     *
-     * @return Model
-     */
-    public function like()
-    {
-        return $this->likes()->create(['user_id' => auth()->id()]);
-    }
-
-    /**
-     * Thread can be unliked.
-     *
-     * @return Model
-     */
-    public function unlike()
-    {
-        return $this->likes()->where('user_id', auth()->id())->first()->delete();
-    }
-
-    /**
-     * @return bool
-     */
-    public function getHasBeenLikedAttribute()
-    {
-        return $this->likes()->where('user_id', auth()->id())->exists();
-    }
 }

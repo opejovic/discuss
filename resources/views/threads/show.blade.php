@@ -7,7 +7,7 @@
                 {{ $thread->title }}
 
                 <div class="text-sm">
-                    <a class="text-gray-600 underline" href="#">{{ $thread->author->name }}</a>
+                    <a class="text-gray-600 underline" href="{{ route('profile', $thread->author) }}">{{ $thread->author->name }}</a>
                     <div class="text-gray-600 text-xs">{{ $thread->published_at }}</div>
                 </div>
             </div>

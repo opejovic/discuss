@@ -37,7 +37,7 @@
 
             <!-- else -->
             <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="auth.name">
+                @click="profilePage" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="auth.name">
                 <span class="caret"></span>
             </a>
 
@@ -94,6 +94,10 @@
 
             logout() {
                 document.getElementById('logout-form').submit();
+            },
+
+            profilePage() {
+                location.pathname = `profiles/${this.auth.name}`
             }
         },
 

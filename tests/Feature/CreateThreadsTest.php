@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Reply;
 use App\Thread;
 use App\Channel;
 use Tests\TestCase;
@@ -71,6 +72,43 @@ class CreateThreadsTest extends TestCase
         $this->publishThread([
            'channel_id' => '123123'
         ])->assertSessionHasErrors('channel_id');
+    }
+
+    /** @test */
+    function guests_cannot_delete_any_threads()
+    {
+        $thread = factory(Thread::class)->create();
+
+        $response = $this->delete(route('threads.destroy', $thread));
+
+        $response->assertRedirect('login');
+        $this->assertEquals(1, Thread::count());
+    }
+
+    /** @test */
+    function thread_can_be_deleted_by_its_author()
+    {
+        $user = factory(User::class)->create();
+        $thread = factory(Thread::class)->create(['user_id' => $user->id]);
+        $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
+
+        $response = $this->actingAs($user)->delete(route('threads.destroy', $thread));
+
+        $response->assertRedirect('home');
+        $this->assertEquals(0, Thread::count());
+        $this->assertEquals(0, Reply::count());
+    }
+
+    /** @test */
+    function thread_cannot_be_deleted_by_unauthorized_members()
+    {
+        $user = factory(User::class)->create();
+        $thread = factory(Thread::class)->create();
+
+        $response = $this->actingAs($user)->delete(route('threads.destroy', $thread));
+
+        $response->assertStatus(403);
+        $this->assertEquals(1, Thread::count());
     }
 
     public function publishThread($overrides)

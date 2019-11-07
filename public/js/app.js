@@ -2171,6 +2171,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     logout: function logout() {
       document.getElementById('logout-form').submit();
+    },
+    profilePage: function profilePage() {
+      location.pathname = "profiles/".concat(this.auth.name);
     }
   },
   created: function created() {
@@ -20663,7 +20666,7 @@ var render = function() {
     "button",
     {
       staticClass:
-        "mx-auto items-center rounded-full border border-gray-200 inline-block w-12 h-12 flex justify-center text-xs text-gray-600 leading-loose hover:text-red-500 hover:border-red-300 focus:outline-none",
+        "items-center rounded-full border border-gray-200 inline-block w-12 h-12 flex justify-center text-xs text-gray-600 leading-loose hover:text-red-500 hover:border-red-300 focus:outline-none",
       class: _vm.isLiked ? "border-red-600" : "",
       domProps: { textContent: _vm._s(_vm.isLiked ? "unlike" : "like") },
       on: {
@@ -20822,13 +20825,13 @@ var render = function() {
                   staticClass:
                     "mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2",
                   attrs: {
-                    href: "#",
                     role: "button",
                     "data-toggle": "dropdown",
                     "aria-haspopup": "true",
                     "aria-expanded": "false"
                   },
-                  domProps: { textContent: _vm._s(_vm.auth.name) }
+                  domProps: { textContent: _vm._s(_vm.auth.name) },
+                  on: { click: _vm.profilePage }
                 },
                 [_c("span", { staticClass: "caret" })]
               )

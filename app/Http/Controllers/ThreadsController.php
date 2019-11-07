@@ -96,11 +96,16 @@ class ThreadsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Thread $thread
-     * @return \Illuminate\Http\Response
+     * @return void
+     * @throws \Exception
      */
     public function destroy(Thread $thread)
     {
-        //
+        $this->authorize('update', $thread);
+
+        $thread->delete();
+
+        return redirect()->home();
     }
 
     /**

@@ -21,6 +21,8 @@ Route::get('threads', 'ThreadsController@index')->name('threads.index');
 Route::middleware('auth')->group(function () {
     Route::get('threads/create', 'ThreadsController@create')->name('threads.create');
     Route::post('threads', 'ThreadsController@store')->name('threads.store');
+    Route::delete('threads/{thread}', 'ThreadsController@destroy')->name('threads.destroy');
+
     Route::post('threads/{channel}/{thread}/replies', 'RepliesController@store')->name('replies.store');
 
     Route::post('threads/{thread}/likes', 'ThreadLikesController@store')->name('likes.store');

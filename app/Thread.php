@@ -4,12 +4,13 @@ namespace App;
 
 use Carbon\Carbon;
 use App\Traits\Likable;
+use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
-    use Likable;
+    use Likable, RecordsActivity;
 
     /**
      * Attributes that are not mass assignable.

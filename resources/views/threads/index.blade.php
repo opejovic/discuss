@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach ($threads as $thread)
+    @forelse ($threads as $thread)
         <div class="mx-auto text-center text-gray-800 sm:w-1/3 w-full">
             <a class="text-lg" href="{{ route('threads.show', [$thread->channel, $thread]) }}">
                 {{ $thread->title }}
@@ -20,5 +20,7 @@
 
             @include('components.red-line')
         </div>
-    @endforeach
+    @empty
+        This channel looks empty af. Do you want to say something on this topic?
+    @endforelse
 @endsection

@@ -21,6 +21,8 @@
             @include('components.red-line')
         </div>
     @empty
-        This channel looks empty af. Do you want to say something on this topic?
+        <div class="text-center text-xl text-gray-600">
+            Nothing here.
+        </div>
     @endforelse
 @endsection

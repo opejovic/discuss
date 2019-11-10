@@ -59,7 +59,6 @@
                     .post(this.store)
                     .then(response => {
                         this.isLiked = true
-                        this.$toasted.show("Thread liked!");
                     })
                     .catch(errors => console.log(errors))
             },

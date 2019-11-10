@@ -1988,6 +1988,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    if (this.message) {
+      this.flash(this.message);
+    }
+
     window.events.$on('flash', function (message) {
       _this.flash(message);
     });
@@ -2063,8 +2067,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(this.store).then(function (response) {
         _this.isLiked = true;
-
-        _this.$toasted.show("Thread liked!");
       })["catch"](function (errors) {
         return console.log(errors);
       });

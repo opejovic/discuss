@@ -96,7 +96,7 @@ class ThreadsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Thread $thread
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
     public function destroy(Thread $thread)
@@ -105,7 +105,7 @@ class ThreadsController extends Controller
 
         $thread->delete();
 
-        return redirect()->home();
+        return redirect('home')->with('flash', 'Thread deleted!');
     }
 
     /**

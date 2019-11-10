@@ -7,14 +7,27 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Toasted from 'vue-toasted';
 
 window.events = new Vue();
 
 window.flash = function (message) {
     window.events.$emit('flash', message)
-}
+};
 
 Vue.prototype.auth = window.auth; // ...authenticated user
+
+Vue.use(Toasted,  {
+    theme: "toasted-primary",
+    position: "bottom-right",
+    duration: 5000,
+    action: {
+        text: 'Close',
+        onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+        }
+    },
+});
 
 /**
  * The following block of code may be used to automatically register your

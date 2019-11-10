@@ -11,7 +11,7 @@
 
                     <div class="pb-4">
                         <label class="block mt-4">
-                            <select name="channel_id" class="form-select mt-1 block w-full text-gray-700 rounded-lg py-3">
+                            <select name="channel_id" class="focus:outline-none bg-white h-12 placeholder-gray-400 p-3 border mt-1 block w-full @error('channel_id') is-invalid @enderror text-gray-700 rounded-lg py-3">
                                 <option value="">Select a channel</option>
 
                                 @foreach($channels as $channel)
@@ -63,10 +63,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        // this.$toasted.show("Thread created!");
-        console.log('hey')
-    </script>
-@endpush

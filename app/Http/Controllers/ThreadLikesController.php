@@ -41,7 +41,7 @@ class ThreadLikesController extends Controller
 
         $thread->like();
 
-        return response(['Thread liked.'], 201);
+        return response('Thread liked.', 201);
     }
 
     /**
@@ -83,6 +83,7 @@ class ThreadLikesController extends Controller
      *
      * @param  Thread $thread
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Thread $thread)
     {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ThreadFilters extends Filters
 {
-    protected $filters = ['by', 'popular'];
+    protected $filters = ['by', 'my', 'popular'];
 
     /**
      * @param  $username
@@ -20,6 +20,14 @@ class ThreadFilters extends Filters
         $user = User::whereName($username)->firstOrFail();
 
         return $this->builder->where('user_id', $user->id);
+    }
+
+    /**
+     * @return Builder
+     */
+    protected function my(): Builder
+    {
+        return $this->builder->where('user_id', auth()->id());
     }
 
     /**

@@ -2,7 +2,7 @@
 
 @section('content')
     @forelse ($threads as $thread)
-        <div class="mx-auto text-center text-gray-800 sm:w-1/3 w-full">
+        <div class="mx-auto text-center text-gray-800 sm:w-1/3 w-full break-words">
             <a class="text-lg" href="{{ route('threads.show', [$thread->channel, $thread]) }}">
                 {{ $thread->title }}
             </a>

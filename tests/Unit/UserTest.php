@@ -33,4 +33,18 @@ class UserTest extends TestCase
 
         $this->assertCount(1, $user->threads);
     }
+
+    /** @test */
+    function it_has_activities()
+    {
+        auth()->login($user = factory(User::class)->create());
+
+        $user->publishThread([
+            'channel_id' => factory(Channel::class)->create()->id,
+            'title' => 'Sample title',
+            'body' => 'Sample body'
+        ]);
+
+        $this->assertEquals(1, $user->fresh()->activities()->count());
+    }
 }

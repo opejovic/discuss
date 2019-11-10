@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="md:w-2/3 w-full mx-auto">
+    <div class="md:w-2/3 w-full mx-auto break-words">
         <div class="pb-4">
             <div class="text-center text-gray-800 text-xl">
                 {{ $thread->title }}
@@ -55,7 +55,7 @@
         @auth
             @include('threads.reply-form')
         @else
-            <div class="text-sm pt-4"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="{{ route('login') }}">Sign in</a> if you want to join the discussion.</div>
+            <div class="text-sm pt-4 text-gray-700"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="{{ route('login') }}">Sign in</a> if you want to join the discussion.</div>
         @endauth
     </div>
 @endsection

@@ -8,6 +8,12 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+window.events = new Vue();
+
+window.flash = function (message) {
+    window.events.$emit('flash', message)
+}
+
 Vue.prototype.auth = window.auth; // ...authenticated user
 
 /**
@@ -23,6 +29,7 @@ Vue.prototype.auth = window.auth; // ...authenticated user
 
 Vue.component('navigation-bar', require('./components/NavigationBar.vue').default);
 Vue.component('like-button', require('./components/LikeButton.vue').default);
+Vue.component('flash-message', require('./components/FlashMessage.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

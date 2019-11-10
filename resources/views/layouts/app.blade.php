@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+    @stack('scripts')
     <script>
         window.auth = {!! json_encode(Auth::user(), JSON_HEX_TAG) !!};
     </script>
@@ -26,6 +27,8 @@
         <main class="py-4 px-6">
             @yield('content')
         </main>
+
+        <flash-message message="{{ session('flash') }}"></flash-message>
     </div>
 </body>
 </html>

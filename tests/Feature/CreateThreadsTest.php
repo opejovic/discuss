@@ -97,6 +97,16 @@ class CreateThreadsTest extends TestCase
         $response->assertRedirect('home');
         $this->assertEquals(0, Thread::count());
         $this->assertEquals(0, Reply::count());
+
+        $this->assertDatabaseMissing('activities', [
+           'subject_id' => $thread->id,
+           'subject_type' => get_class($thread)
+        ]);
+
+        $this->assertDatabaseMissing('activities', [
+           'subject_id' => $reply->id,
+           'subject_type' => get_class($reply)
+        ]);
     }
 
     /** @test */

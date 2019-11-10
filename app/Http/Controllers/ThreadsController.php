@@ -51,7 +51,7 @@ class ThreadsController extends Controller
 
         $thread = Auth::user()->publishThread($attributes);
 
-        return redirect($thread->path());
+        return redirect($thread->path())->with('flash', 'Thread created!');
     }
 
     /**

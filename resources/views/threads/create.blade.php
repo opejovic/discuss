@@ -63,3 +63,10 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        // this.$toasted.show("Thread created!");
+        console.log('hey')
+    </script>
+@endpush

@@ -63,8 +63,19 @@ class User extends Authenticatable
         return $this->threads()->create($attributes);
     }
 
+    /**
+     * @return string
+     */
     public function getMemberSinceAttribute()
     {
         return Carbon::parse($this->created_at)->format('M Y');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'user_id');
     }
 }

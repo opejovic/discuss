@@ -15,19 +15,19 @@
         </div>
     </div>
 
-    @foreach($threads as $thread)
-        <div class="text-gray-700 py-4 mx-auto text-center">
-            <div class="pb-4 text-center hover:underline inline-block">
-                <a href="{{ route('threads.show', [$thread->channel, $thread]) }}">{{ $thread->title }}</a>
-            </div>
-            <div class="text-sm text-gray-600">
-                {{ $thread->body }}
-            </div>
+    @foreach($activities as $date => $activity)
+        <div class="text text-gray-600 text-center py-2">
+            {{ $date }}
         </div>
+
+        @foreach($activity as $record)
+        <div class="text-gray-700 py-4 mx-auto text-center">
+            @include("profiles.activities.$record->type", ['activity' => $record])
+        </div>
+        @endforeach
+
         @include('components.red-line')
     @endforeach
-
-    {{ $threads->links() }}
 
 </div>
 @endsection

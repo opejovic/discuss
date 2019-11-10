@@ -11,7 +11,7 @@
                     <div class="text-gray-600 text-xs">{{ $thread->published_at }}</div>
                 </div>
             </div>
-            <div class="text-center pt-2 text-gray-800">
+            <div class="text-justify pt-2 text-gray-800">
               {{ $thread->body }}
             </div>
         </div>

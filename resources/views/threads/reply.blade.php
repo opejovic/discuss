@@ -4,7 +4,7 @@
     </a>: {{ $reply->body }} <span class="text-xs italic ml-2">{{ $reply->created_at->diffForHumans() }}</span>
 
     @can('delete', $reply)
-    <form action="{{ route('replies.destroy', [$thread, $reply]) }}" method="POST">
+    <form action="{{ route('replies.destroy', $reply) }}" method="POST">
         @method('DELETE')
         @csrf
 

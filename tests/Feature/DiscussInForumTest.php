@@ -63,7 +63,7 @@ class DiscussInForumTest extends TestCase
             'user_id' => $john->id
         ]);
 
-        $this->actingAs($john)->delete(route('replies.destroy', [$thread, $johnsReply]));
+        $this->actingAs($john)->delete(route('replies.destroy', $johnsReply));
 
         $this->assertEquals(0, $john->replies()->count());
     }
@@ -78,7 +78,7 @@ class DiscussInForumTest extends TestCase
             'user_id' => $john->id
         ]);
 
-        $response = $this->actingAs($jane)->delete(route('replies.destroy', [$thread, $johnsReply]));
+        $response = $this->actingAs($jane)->delete(route('replies.destroy', $johnsReply));
 
         $response->assertForbidden();
         $this->assertEquals(1, $john->replies()->count());

@@ -87,11 +87,21 @@ class RepliesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
+     * @param  Thread     $thread
+     * @param  \App\Reply $reply
+     * @return void
+     * @throws \Exception
      */
-    public function destroy(Reply $reply)
+    public function destroy(Thread $thread, Reply $reply)
     {
-        //
+        $this->authorize('delete', $reply);
+
+        $reply->delete();
+
+        if (request()->expectsJson()) {
+            return response(['Reply deleted'], 200);
+        }
+
+        return back();
     }
 }

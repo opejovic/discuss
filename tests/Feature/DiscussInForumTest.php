@@ -53,4 +53,34 @@ class DiscussInForumTest extends TestCase
         $response->assertSessionHasErrors('body');
         $this->assertEquals(0, Reply::all()->count());
     }
+
+    /** @test */
+    function authorized_users_can_delete_replies()
+    {
+        $john = factory(User::class)->create();
+        $thread = factory(Thread::class)->create();
+        $johnsReply = factory(Reply::class)->create([
+            'user_id' => $john->id
+        ]);
+
+        $this->actingAs($john)->delete(route('replies.destroy', [$thread, $johnsReply]));
+
+        $this->assertEquals(0, $john->replies()->count());
+    }
+
+    /** @test */
+    function unauthorized_users_cannot_delete_replies()
+    {
+        $john = factory(User::class)->create();
+        $jane = factory(User::class)->create();
+        $thread = factory(Thread::class)->create();
+        $johnsReply = factory(Reply::class)->create([
+            'user_id' => $john->id
+        ]);
+
+        $response = $this->actingAs($jane)->delete(route('replies.destroy', [$thread, $johnsReply]));
+
+        $response->assertForbidden();
+        $this->assertEquals(1, $john->replies()->count());
+    }
 }

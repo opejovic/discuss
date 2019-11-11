@@ -6,6 +6,7 @@ use App\User;
 use App\Thread;
 use App\Channel;
 use Tests\TestCase;
+use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
@@ -46,5 +47,13 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals(1, $user->fresh()->activities()->count());
+    }
+
+    /** @test */
+    function it_can_have_many_replies()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertInstanceOf(Collection::class, $user->replies);
     }
 }

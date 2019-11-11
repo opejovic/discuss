@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('threads/{thread}', 'ThreadsController@destroy')->name('threads.destroy');
 
     Route::post('threads/{channel}/{thread}/replies', 'RepliesController@store')->name('replies.store');
+    Route::delete('{thread}/replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
 
     Route::post('threads/{thread}/likes', 'ThreadLikesController@store')->name('likes.store');
     Route::delete('threads/{thread}/likes', 'ThreadLikesController@destroy')->name('likes.destroy');

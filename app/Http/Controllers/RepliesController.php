@@ -32,22 +32,23 @@ class RepliesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Channel $channel
      * @param  Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Channel $channel, Thread $thread)
+    public function store(Thread $thread)
     {
         $validated = request()->validate([
            'body' => ['required', 'min:3']
         ]);
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'user_id' => auth()->id(),
             'body' => $validated['body']
         ]);
 
-        return back();
+        return response('Reply created!', 200);
+
+        // return back()->with('flash', 'You have replied to this thread.');
     }
 
     /**
@@ -65,23 +66,37 @@ class RepliesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Reply $reply)
     {
-        //
+        return view('threads.show', [
+            'thread' => $reply->thread->append('hasBeenLiked'),
+            'replies' => $reply->thread->replies()->paginate(25),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Reply               $reply
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Reply $reply)
     {
-        //
+        $this->authorize('update', $reply);
+
+        request()->validate([
+            'body' => ['required', 'min:2']
+        ]);
+
+        $reply->update([
+           'body' => request('body')
+        ]);
+
+        return back()->with('flash', 'Reply updated!');
     }
 
     /**
@@ -89,7 +104,7 @@ class RepliesController extends Controller
      *
      * @param  Thread     $thread
      * @param  \App\Reply $reply
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
     public function destroy(Thread $thread, Reply $reply)

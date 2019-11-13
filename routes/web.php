@@ -23,7 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::post('threads', 'ThreadsController@store')->name('threads.store');
     Route::delete('threads/{thread}', 'ThreadsController@destroy')->name('threads.destroy');
 
-    Route::post('threads/{channel}/{thread}/replies', 'RepliesController@store')->name('replies.store');
+    Route::post('threads/{thread}/replies', 'RepliesController@store')->name('replies.store');
+    Route::get('replies/{reply}', 'RepliesController@edit')->name('replies.edit');
+    Route::patch('replies/{reply}', 'RepliesController@update')->name('replies.update');
     Route::delete('replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
 
     Route::post('threads/{thread}/likes', 'ThreadLikesController@store')->name('likes.store');

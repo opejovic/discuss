@@ -23,7 +23,7 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function guests_cannot_discuss_in_forum()
     {
-        $this->post('threads/asd/1/replies', [])->assertRedirect('login');
+        $this->post('threads/1/replies', [])->assertRedirect('login');
     }
 
     /** @test */
@@ -31,11 +31,10 @@ class DiscussInForumTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
-            ->post(route('replies.store', [$this->thread->channel, $this->thread]), [
+            ->post(route('replies.store', $this->thread), [
                 'body' => 'Very nice read! Keep up the good work!'
             ]);
 
-        $response->assertRedirect($this->thread->path());
         $this->get($this->thread->path())->assertSee('Very nice read! Keep up the good work!');
         $this->assertEquals(1, Reply::all()->count());
         $this->assertTrue(Reply::first()->author->is($this->user));
@@ -46,7 +45,7 @@ class DiscussInForumTest extends TestCase
     {
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
-            ->post(route('replies.store', [$this->thread->channel, $this->thread]), [
+            ->post(route('replies.store', $this->thread), [
                 'body' => ''
             ]);
 
@@ -58,7 +57,6 @@ class DiscussInForumTest extends TestCase
     function authorized_users_can_delete_replies()
     {
         $john = factory(User::class)->create();
-        $thread = factory(Thread::class)->create();
         $johnsReply = factory(Reply::class)->create([
             'user_id' => $john->id
         ]);
@@ -73,7 +71,6 @@ class DiscussInForumTest extends TestCase
     {
         $john = factory(User::class)->create();
         $jane = factory(User::class)->create();
-        $thread = factory(Thread::class)->create();
         $johnsReply = factory(Reply::class)->create([
             'user_id' => $john->id
         ]);
@@ -82,5 +79,39 @@ class DiscussInForumTest extends TestCase
 
         $response->assertForbidden();
         $this->assertEquals(1, $john->replies()->count());
+    }
+
+    /** @test */
+    function authorized_users_can_edit_replies()
+    {
+        $john = factory(User::class)->create();
+        $johnsReply = factory(Reply::class)->create([
+            'user_id' => $john->id,
+            'body' => 'Example reply'
+        ]);
+
+        $this->actingAs($john)->patch(route('replies.update', $johnsReply), [
+            'body' => 'The updated reply'
+        ]);
+
+        $this->assertEquals('The updated reply', $johnsReply->fresh()->body);
+    }
+
+    /** @test */
+    function unauthorized_users_cannot_edit_replies()
+    {
+        $john = factory(User::class)->create();
+        $jane = factory(User::class)->create();
+        $johnsReply = factory(Reply::class)->create([
+            'user_id' => $john->id,
+            'body' => 'Example reply'
+        ]);
+
+        $response = $this->actingAs($jane)->patch(route('replies.update', $johnsReply), [
+            'body' => 'The updated reply'
+        ]);
+
+        $response->assertForbidden();
+        $this->assertEquals('Example reply', $johnsReply->fresh()->body);
     }
 }

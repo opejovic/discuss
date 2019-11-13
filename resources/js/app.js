@@ -17,6 +17,11 @@ window.flash = function (message) {
 
 Vue.prototype.auth = window.auth; // ...authenticated user
 
+Vue.filter('pluralize', (word, amount) =>
+    amount > 1 || amount == 0 ? `${word}s` : word
+);
+
+
 Vue.use(Toasted,  {
     theme: "toasted-primary",
     position: "bottom-right",
@@ -43,6 +48,7 @@ Vue.use(Toasted,  {
 Vue.component('navigation-bar', require('./components/NavigationBar.vue').default);
 Vue.component('like-button', require('./components/LikeButton.vue').default);
 Vue.component('flash-message', require('./components/FlashMessage.vue').default);
+Vue.component('replies', require('./components/Replies.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

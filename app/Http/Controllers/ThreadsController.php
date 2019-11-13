@@ -63,9 +63,15 @@ class ThreadsController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
+        $replies = $thread->replies()->paginate(25);
+
+        if (request()->expectsJson()) {
+            return $replies;
+        }
+
         return view('threads.show', [
             'thread' => $thread->append('hasBeenLiked'),
-            'replies' => $thread->replies()->paginate(25)
+            'replies' => $replies->toJson()
         ]);
     }
 

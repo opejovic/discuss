@@ -1,19 +1,34 @@
-<div class="text-justify text-gray-800 text-sm pb-1 flex items-center">
-    <a href="{{ route('profile', $reply->author->name) }}" class="text-gray-600 underline">
-        {{ $reply->author->name }}
-    </a>: {{ $reply->body }} <span class="text-xs italic ml-2">{{ $reply->created_at->diffForHumans() }}</span>
+<div class="text-justify text-gray-800 text-sm pb-1 flex">
+    <div class="flex">
+        <a href="{{ route('profile', $reply->author->name) }}" class="text-gray-600 underline">
+            {{ $reply->author->name }}
+        </a>: {{ $reply->body }}
+
+        <span class="text-xs italic ml-2">{{ $reply->created_at->diffForHumans() }}</span>
+    </div>
 
     @can('delete', $reply)
-    <form action="{{ route('replies.destroy', $reply) }}" method="POST">
-        @method('DELETE')
-        @csrf
+        <div class="flex items-center justify-between ml-1">
 
-        <button type="submit" class="focus:outline-none">
-            <svg class="ml-1 w-3 h-3 text-red-600 fill-current hover:text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 13">
-                <path d="M.7143 11.4286c0 .7857.6428 1.4285 1.4286 1.4285H7.857c.7858 0 1.4286-.6428 1.4286-1.4285V2.8571H.7143v8.5715zm1.7571-5.0857l1.0072-1.0072L5 6.85l1.5143-1.5143L7.5214 6.343 6.0071 7.857l1.5143 1.5143-1.0071 1.0072L5 8.8643l-1.5143 1.5143-1.0071-1.0072 1.5143-1.5143L2.4714 6.343zM7.5.7143L6.7857 0H3.2143L2.5.7143H0v1.4286h10V.7143H7.5z"/>
-            </svg>
-        </button>
-    </form>
+            <a href="{{ route('replies.edit', $reply) }}" class="block focus:outline-none">
+                <svg class="w-3 h-3 text-gray-700 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                </svg>
+            </a>
+
+
+            <form action="{{ route('replies.destroy', $reply) }}" method="POST">
+                @method('DELETE')
+                @csrf
+
+                <button type="submit" class="focus:outline-none">
+                    <svg class="w-3 h-3 ml-1 text-gray-700 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 18">
+                        <path d="M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4H1v12zM14 1h-3.5l-1-1h-5l-1 1H0v2h14V1z" />
+                    </svg>
+                </button>
+            </form>
+        </div>
     @endcan
+
 </div>
 

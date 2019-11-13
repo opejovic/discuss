@@ -40,22 +40,6 @@
             @endcan
             </div>
 
-        <div class="text-gray-600 py-4">
-            {{ $thread->replies_count }} {{ Str::plural('comment', $thread->replies_count) }}
-        </div>
-
-        <div>
-            @foreach($replies as $reply)
-                @include('threads.reply')
-            @endforeach
-
-            {{ $replies->links() }}
-        </div>
-
-        @auth
-            @include('threads.reply-form')
-        @else
-            <div class="text-sm pt-4 text-gray-700"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="{{ route('login') }}">Sign in</a> if you want to join the discussion.</div>
-        @endauth
+        <replies :replies="{{ $replies }}" :thread="{{ $thread }}"></replies>
     </div>
 @endsection

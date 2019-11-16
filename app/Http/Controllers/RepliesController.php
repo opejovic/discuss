@@ -92,9 +92,13 @@ class RepliesController extends Controller
             'body' => ['required', 'min:2']
         ]);
 
-        $reply->update([
+        $reply = $reply->update([
            'body' => request('body')
         ]);
+
+        if (request()->expectsJson()) {
+            return response('Reply updated', 200);
+        }
 
         return back()->with('flash', 'Reply updated!');
     }

@@ -2428,6 +2428,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Reply",
@@ -2437,12 +2456,22 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     }
   },
+  data: function data() {
+    return {
+      editing: false,
+      body: this.reply.body,
+      errors: []
+    };
+  },
   computed: {
     published_at: function published_at() {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.reply.created_at).startOf('hour').fromNow();
     },
     canUpdate: function canUpdate() {
       return this.reply.user_id === auth.id;
+    },
+    changed: function changed() {
+      return this.body !== this.reply.body;
     }
   },
   methods: {
@@ -2457,6 +2486,28 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$toasted.show('Reply deleted!');
       })["catch"]();
+    },
+    update: function update(reply) {
+      var _this2 = this;
+
+      if (!this.changed) {
+        return this.cancel();
+      }
+
+      axios.patch("/replies/".concat(this.reply.id), {
+        body: this.body
+      }).then(function (response) {
+        _this2.editing = false;
+
+        _this2.$toasted.show('Reply updated');
+      })["catch"](function (error) {
+        _this2.errors = error.response.data.errors;
+        console.log(error.response.data.errors);
+      });
+    },
+    cancel: function cancel() {
+      this.editing = false;
+      this.body = this.reply.body;
     }
   }
 });
@@ -38910,99 +38961,183 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "text-justify text-gray-800 text-sm pb-1 flex" },
+    {
+      staticClass:
+        "text-justify text-gray-800 text-sm p-4 mb-2 border border-gray-200 rounded-lg"
+    },
     [
       _c("div", [
-        _c(
-          "a",
-          {
-            staticClass: "cursor-pointer text-gray-600 underline",
-            on: { click: _vm.profilePage }
-          },
-          [
-            _vm._v(
-              "\n            " + _vm._s(_vm.reply.author.name) + "\n        "
-            )
-          ]
-        ),
-        _vm._v(": " + _vm._s(_vm.reply.body) + "\n\n        "),
-        _c("span", { staticClass: "text-xs italic ml-2 text-gray-700" }, [
-          _vm._v(_vm._s(_vm.published_at))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.canUpdate
-        ? _c("div", { staticClass: "flex items-center justify-between ml-1" }, [
+        _c("div", { staticClass: "pb-2 flex items-center justify-between" }, [
+          _c("div", [
             _c(
               "a",
               {
-                staticClass: "block focus:outline-none",
-                attrs: { href: "/editreply" }
+                staticClass: "cursor-pointer text-gray-600 font-bold",
+                on: { click: _vm.profilePage }
               },
               [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "w-3 h-3 text-gray-700 fill-current",
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 24 24"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                      }
-                    })
-                  ]
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.reply.author.name) +
+                    "\n                "
                 )
               ]
             ),
             _vm._v(" "),
-            _c(
-              "form",
-              {
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.remove(_vm.reply)
-                  }
-                }
-              },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass: "focus:outline-none",
-                    attrs: { type: "submit" }
-                  },
-                  [
-                    _c(
-                      "svg",
+            _c("span", { staticClass: "text-xs italic ml-2 text-gray-700" }, [
+              _vm._v(_vm._s(_vm.published_at))
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.canUpdate
+            ? _c("div", { staticClass: "flex items-center justify-between" }, [
+                !_vm.editing
+                  ? _c(
+                      "button",
                       {
-                        staticClass: "w-3 h-3 ml-1 text-gray-700 fill-current",
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 14 18"
+                        staticClass: "focus:outline-none mr-2",
+                        on: {
+                          click: function($event) {
+                            _vm.editing = true
+                          }
                         }
                       },
                       [
-                        _c("path", {
-                          attrs: {
-                            d:
-                              "M1 16c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4H1v12zM14 1h-3.5l-1-1h-5l-1 1H0v2h14V1z"
-                          }
-                        })
+                        _c(
+                          "svg",
+                          {
+                            staticClass:
+                              "w-3 h-3 text-gray-600 hover:text-gray-700 fill-current",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 24 24"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d:
+                                  "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                              }
+                            })
+                          ]
+                        )
                       ]
                     )
-                  ]
-                )
-              ]
-            )
-          ])
-        : _vm._e()
+                  : _vm._e()
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.editing
+          ? _c("div", [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.body,
+                    expression: "body"
+                  }
+                ],
+                staticClass:
+                  "border border-gray-200 rounded w-full focus:outline-none p-2 -mb-2",
+                attrs: { name: "body" },
+                domProps: { value: _vm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.body = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.errors.body
+                ? _c("span", { staticClass: "text-xs text-red-500" }, [
+                    _vm._v(_vm._s(_vm.errors.body[0]))
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex pt-4" }, [
+                _vm.editing
+                  ? _c(
+                      "form",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.update()
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Save\n                    "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold",
+                    on: {
+                      click: function($event) {
+                        return _vm.cancel()
+                      }
+                    }
+                  },
+                  [_vm._v("\n                    Cancel\n                ")]
+                ),
+                _vm._v(" "),
+                _vm.editing
+                  ? _c(
+                      "form",
+                      {
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.remove(_vm.reply)
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Delete\n                    "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editing == false ? _c("span", [_vm._v(_vm._s(_vm.body))]) : _vm._e()
+      ])
     ]
   )
 }

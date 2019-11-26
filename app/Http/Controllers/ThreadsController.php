@@ -63,7 +63,7 @@ class ThreadsController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
-        $replies = $thread->replies()->paginate(25);
+        $replies = $thread->replies()->orderBy('created_at')->paginate(2);
 
         if (request()->expectsJson()) {
             return $replies;

@@ -49,6 +49,7 @@ Vue.component('navigation-bar', require('./components/NavigationBar.vue').defaul
 Vue.component('like-button', require('./components/LikeButton.vue').default);
 Vue.component('flash-message', require('./components/FlashMessage.vue').default);
 Vue.component('replies', require('./components/Replies.vue').default);
+Vue.component('paginator', require('./components/Paginator.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -4,11 +4,14 @@
             {{ replyCount }} {{ 'comment' | pluralize(replyCount) }}
         </div>
 
-        <div v-for="reply in items" :key="reply.id">
+        <div v-for="reply in items.data" :key="reply.id">
             <reply :reply="reply" @deleted="remove(reply)"></reply>
         </div>
+        
 
-        <new-reply v-if="auth" :thread="thread" @created="refresh"></new-reply>
+        <paginator :pagination="items" @changed="refresh"></paginator>
+
+        <new-reply v-if="auth" :thread="thread" @created="add"></new-reply>
 
         <div v-else class="text-sm pt-4 text-gray-700"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="/login">Sign in</a> if you want to join the discussion.</div>
     </div>
@@ -21,14 +24,14 @@
     export default {
         components: {
             Reply,
-            NewReply
+            NewReply,
         },
 
         props: ['replies', 'thread'],
 
         data() {
             return {
-                items: this.replies.data,
+                items: this.replies,
                 replyCount: this.thread.replies_count
             }
         },
@@ -41,19 +44,23 @@
 
         methods: {
             remove(reply) {
-                const item = this.items.indexOf(reply)
-                this.replyCount--
-                this.items.splice(item, 1)
+                this.replyCount--;
+                this.refresh();
             },
 
-            refresh() {
+            add() {
+                this.replyCount++;
+                this.refresh();
+
+            },
+
+            refresh(path = this.threadPath) {
                 axios
-                    .get(this.threadPath)
+                    .get(path)
                     .then(response => {
-                        this.replyCount++
-                        this.items = response.data.data
+                        this.items = response.data;
                     })
-            }
+            },
         },
     }
 </script>

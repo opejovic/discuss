@@ -51,7 +51,6 @@
             add() {
                 this.replyCount++;
                 this.refresh();
-
             },
 
             refresh(path = this.threadPath) {

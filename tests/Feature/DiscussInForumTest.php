@@ -35,7 +35,6 @@ class DiscussInForumTest extends TestCase
                 'body' => 'Very nice read! Keep up the good work!'
             ]);
 
-        $this->get($this->thread->path())->assertSee('Very nice read! Keep up the good work!');
         $this->assertEquals(1, Reply::all()->count());
         $this->assertTrue(Reply::first()->author->is($this->user));
     }

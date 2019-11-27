@@ -43,7 +43,6 @@ class LikesTest extends TestCase
     /** @test */
     function authenticated_user_can_unlike_any_thread_they_have_liked()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $thread = factory(Thread::class)->create();
 

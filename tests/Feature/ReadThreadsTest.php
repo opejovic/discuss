@@ -48,9 +48,8 @@ class ReadThreadsTest extends TestCase
     {
         $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
 
-        $response = $this->get($this->thread->path());
+        $response = $this->actingAs($reply->author)->get(route('replies.index', $reply->thread));
 
-        $response->assertSuccessful();
         $response->assertSee($reply->body);
     }
 

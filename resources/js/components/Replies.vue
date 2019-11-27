@@ -7,7 +7,6 @@
         <div v-for="reply in items.data" :key="reply.id">
             <reply :reply="reply" @deleted="remove(reply)"></reply>
         </div>
-        
 
         <paginator :pagination="items" @changed="refresh"></paginator>
 
@@ -27,22 +26,24 @@
             NewReply,
         },
 
-        props: ['replies', 'thread'],
+        props: ['path', 'thread'],
 
         data() {
             return {
-                items: this.replies,
+                items: [],
                 replyCount: this.thread.replies_count
             }
         },
 
-        computed: {
-            threadPath() {
-                return `/threads/${this.thread.channel.slug}/${this.thread.id}`
-            }
+        mounted() {
+            this.fetch();
         },
 
         methods: {
+            fetch() {
+                this.refresh(this.path);
+            },
+
             remove(reply) {
                 this.replyCount--;
                 this.refresh();
@@ -53,9 +54,9 @@
                 this.refresh();
             },
 
-            refresh(path = this.threadPath) {
+            refresh(url = this.path) {
                 axios
-                    .get(path)
+                    .get(url)
                     .then(response => {
                         this.items = response.data;
                     })

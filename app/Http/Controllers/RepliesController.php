@@ -12,11 +12,12 @@ class RepliesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Thread $thread
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
+    public function index(Thread $thread)
     {
-        //
+        return $thread->replies()->paginate(15);
     }
 
     /**
@@ -47,8 +48,6 @@ class RepliesController extends Controller
         ]);
 
         return response('Reply created!', 200);
-
-        // return back()->with('flash', 'You have replied to this thread.');
     }
 
     /**

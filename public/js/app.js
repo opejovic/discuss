@@ -2368,14 +2368,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     pagination: function pagination() {
-      this.assignData();
+      this.pages = this.pagination.last_page;
+      this.currentPage = this.pagination.current_page;
+      this.path = this.pagination.path;
     },
     currentPage: function currentPage() {
-      this.$emit('changed', "".concat(this.path, "/?page=").concat(this.currentPage));
+      this.broadcast();
     }
-  },
-  created: function created() {
-    this.assignData();
   },
   methods: {
     isActive: function isActive(page) {
@@ -2401,10 +2400,8 @@ __webpack_require__.r(__webpack_exports__);
     paginationExists: function paginationExists() {
       return this.pages > 1;
     },
-    assignData: function assignData() {
-      this.pages = this.pagination.last_page;
-      this.currentPage = this.pagination.current_page;
-      this.path = this.pagination.path;
+    broadcast: function broadcast() {
+      this.$emit('changed', "".concat(this.path, "/?page=").concat(this.currentPage));
     }
   }
 });
@@ -2440,7 +2437,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2448,19 +2444,20 @@ __webpack_require__.r(__webpack_exports__);
     Reply: _Reply_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     NewReply: _NewReply_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ['replies', 'thread'],
+  props: ['path', 'thread'],
   data: function data() {
     return {
-      items: this.replies,
+      items: [],
       replyCount: this.thread.replies_count
     };
   },
-  computed: {
-    threadPath: function threadPath() {
-      return "/threads/".concat(this.thread.channel.slug, "/").concat(this.thread.id);
-    }
+  mounted: function mounted() {
+    this.fetch();
   },
   methods: {
+    fetch: function fetch() {
+      this.refresh(this.path);
+    },
     remove: function remove(reply) {
       this.replyCount--;
       this.refresh();
@@ -2472,8 +2469,8 @@ __webpack_require__.r(__webpack_exports__);
     refresh: function refresh() {
       var _this = this;
 
-      var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.threadPath;
-      axios.get(path).then(function (response) {
+      var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.path;
+      axios.get(url).then(function (response) {
         _this.items = response.data;
       });
     }
@@ -2566,7 +2563,11 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.reply.created_at).startOf('hour').fromNow();
     },
     canUpdate: function canUpdate() {
-      return this.reply.user_id === auth.id;
+      if (auth) {
+        return this.reply.user_id === auth.id;
+      }
+
+      return false;
     },
     changed: function changed() {
       return this.body !== this.reply.body;

@@ -44,8 +44,8 @@ class ThreadsController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'title' => ['required', 'min:2'],
-            'body' => ['required', 'min:2'],
+            'title'      => ['required', 'min:2'],
+            'body'       => ['required', 'min:2'],
             'channel_id' => ['required', 'exists:channels,id'],
         ]);
 
@@ -63,15 +63,8 @@ class ThreadsController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
-        $replies = $thread->replies()->orderBy('created_at')->paginate(2);
-
-        if (request()->expectsJson()) {
-            return $replies;
-        }
-
         return view('threads.show', [
             'thread' => $thread->append('hasBeenLiked'),
-            'replies' => $replies->toJson()
         ]);
     }
 

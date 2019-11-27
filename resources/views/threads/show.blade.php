@@ -40,6 +40,6 @@
             @endcan
             </div>
 
-        <replies :replies="{{ $replies }}" :thread="{{ $thread }}"></replies>
+        <replies path="{{ route('replies.index', $thread) }}" :thread="{{ $thread }}"></replies>
     </div>
 @endsection

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::post('threads', 'ThreadsController@store')->name('threads.store');
     Route::delete('threads/{thread}', 'ThreadsController@destroy')->name('threads.destroy');
 
+    Route::get('threads/{thread}/replies', 'RepliesController@index')->name('replies.index');
     Route::post('threads/{thread}/replies', 'RepliesController@store')->name('replies.store');
     Route::get('replies/{reply}', 'RepliesController@edit')->name('replies.edit');
     Route::patch('replies/{reply}', 'RepliesController@update')->name('replies.update');

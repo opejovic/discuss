@@ -77,7 +77,11 @@
             },
 
             canUpdate() {
-                return this.reply.user_id === auth.id;
+                if (auth) {
+                    return this.reply.user_id === auth.id;    
+                }
+
+                return false;
             },
 
             changed() {

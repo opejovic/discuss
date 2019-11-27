@@ -42,16 +42,14 @@
 
         watch: {
             pagination() {
-                this.assignData();
+                this.pages = this.pagination.last_page;
+                this.currentPage = this.pagination.current_page;
+                this.path = this.pagination.path
             },
 
             currentPage() {
-                this.$emit('changed', `${this.path}/?page=${this.currentPage}`)
+                this.broadcast();
             }
-        },
-
-        created() {
-            this.assignData();            
         },
 
         methods: {
@@ -85,10 +83,8 @@
                 return this.pages > 1;
             },
 
-            assignData() {
-                this.pages = this.pagination.last_page;
-                this.currentPage = this.pagination.current_page;
-                this.path = this.pagination.path
+            broadcast() {
+                this.$emit('changed', `${this.path}/?page=${this.currentPage}`);
             }
         },
     }

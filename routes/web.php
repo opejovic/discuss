@@ -13,27 +13,28 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-Route::get('', 'ThreadsController@index');
-Route::get('threads', 'ThreadsController@index')->name('threads.index');
+Route::get('/', 'ThreadsController@index');
+Route::get('threads', ['as' => 'threads.index', 'uses' => 'ThreadsController@index']);
+Route::get('threads/{thread}/replies', ['as' => 'replies.index', 'uses' => 'RepliesController@index']);
+
 
 Route::middleware('auth')->group(function () {
-    Route::get('threads/create', 'ThreadsController@create')->name('threads.create');
-    Route::post('threads', 'ThreadsController@store')->name('threads.store');
-    Route::delete('threads/{thread}', 'ThreadsController@destroy')->name('threads.destroy');
+    Route::get('threads/create', ['as' => 'threads.create', 'uses' => 'ThreadsController@create']);
+    Route::post('threads', ['as' => 'threads.store',  'uses' => 'ThreadsController@store']);
+    Route::delete('threads/{thread}', ['as' => 'threads.destroy', 'uses' => 'ThreadsController@destroy']);
 
-    Route::get('threads/{thread}/replies', 'RepliesController@index')->name('replies.index');
-    Route::post('threads/{thread}/replies', 'RepliesController@store')->name('replies.store');
-    Route::get('replies/{reply}', 'RepliesController@edit')->name('replies.edit');
-    Route::patch('replies/{reply}', 'RepliesController@update')->name('replies.update');
-    Route::delete('replies/{reply}', 'RepliesController@destroy')->name('replies.destroy');
+    Route::post('threads/{thread}/replies', ['as' => 'replies.store', 'uses' => 'RepliesController@store']);
+    Route::get('replies/{reply}', ['as' => 'replies.edit', 'uses' => 'RepliesController@edit']);
+    Route::patch('replies/{reply}', ['as' => 'replies.update', 'uses' => 'RepliesController@update']);
+    Route::delete('replies/{reply}',['as' => 'replies.destroy', 'uses' => 'RepliesController@destroy']);
 
-    Route::post('threads/{thread}/likes', 'ThreadLikesController@store')->name('likes.store');
-    Route::delete('threads/{thread}/likes', 'ThreadLikesController@destroy')->name('likes.destroy');
+    Route::post('threads/{thread}/likes', ['as' => 'likes.store', 'uses' => 'ThreadLikesController@store']);
+    Route::delete('threads/{thread}/likes', ['as' => 'likes.destroy', 'uses' => 'ThreadLikesController@destroy']);
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');
-Route::get('threads/{channel}/{thread}', 'ThreadsController@show')->name('threads.show');
+Route::get('threads/{channel}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadsController@show']);
 
-Route::get('profiles/{user}', 'ProfilesController@show')->name('profile');
+Route::get('profiles/{user}', ['as' => 'profile', 'uses' => 'ProfilesController@show']);

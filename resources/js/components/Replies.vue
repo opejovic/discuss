@@ -5,7 +5,7 @@
         </div>
 
         <div v-for="reply in items.data" :key="reply.id">
-            <reply :reply="reply" @deleted="remove(reply)"></reply>
+            <reply :reply="reply" @deleted="remove"></reply>
         </div>
 
         <paginator :pagination="items" @changed="refresh"></paginator>
@@ -44,7 +44,7 @@
                 this.refresh(this.path);
             },
 
-            remove(reply) {
+            remove() {
                 this.replyCount--;
                 this.refresh();
             },

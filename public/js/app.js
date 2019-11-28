@@ -2458,7 +2458,7 @@ __webpack_require__.r(__webpack_exports__);
     fetch: function fetch() {
       this.refresh(this.path);
     },
-    remove: function remove(reply) {
+    remove: function remove() {
       this.replyCount--;
       this.refresh();
     },
@@ -39116,11 +39116,7 @@ var render = function() {
           [
             _c("reply", {
               attrs: { reply: reply },
-              on: {
-                deleted: function($event) {
-                  return _vm.remove(reply)
-                }
-              }
+              on: { deleted: _vm.remove }
             })
           ],
           1

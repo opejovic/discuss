@@ -29,11 +29,11 @@
                             Save
                         </button>
                     </form>
-    
+
                     <button @click="cancel()" class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
                         Cancel
                     </button>
-    
+
                     <form @click.prevent="remove(reply)" v-if="editing">
                         <button type="submit" class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
                             Delete
@@ -78,7 +78,7 @@
 
             canUpdate() {
                 if (auth) {
-                    return this.reply.user_id === auth.id;    
+                    return this.reply.user_id === auth.id;
                 }
 
                 return false;

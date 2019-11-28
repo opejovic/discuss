@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ThreadFilters extends Filters
 {
-    protected $filters = ['by', 'my', 'popular'];
+    protected $filters = ['by', 'my', 'popular', 'unanswered'];
 
     /**
      * @param  $username
@@ -39,5 +39,13 @@ class ThreadFilters extends Filters
         $this->builder->getQuery()->orders = [];
 
         return $this->builder->orderBy('replies_count', 'desc');
+    }
+
+    /**
+     * @return Builder
+     */
+    protected function unanswered(): Builder
+    {
+        return $this->builder->whereDoesntHave('replies');
     }
 }

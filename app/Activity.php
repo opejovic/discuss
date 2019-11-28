@@ -32,7 +32,7 @@ class Activity extends Model
             ->get()
             ->take($take)
             ->groupBy(function ($activity) {
-            return $activity->created_at->format('d M Y');
-        });
+                return $activity->created_at->format('d M Y');
+            });
     }
 }

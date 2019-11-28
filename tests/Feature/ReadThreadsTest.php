@@ -48,7 +48,7 @@ class ReadThreadsTest extends TestCase
     {
         $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
 
-        $response = $this->actingAs($reply->author)->get(route('replies.index', $reply->thread));
+        $response = $this->get(route('replies.index', $reply->thread));
 
         $response->assertSee($reply->body);
     }
@@ -87,9 +87,9 @@ class ReadThreadsTest extends TestCase
         $threadWithTwoReplies = factory(Thread::class)->create(['created_at' => now()->addDay()]);
         $threadWithNoReplies = factory(Thread::class)->create(['created_at' => now()->subWeek()]);
 
-        factory(Reply::class, 3)->create(['thread_id' => $threadWithThreeReplies]);
-        factory(Reply::class, 3)->create(['thread_id' => $threadWithTwoReplies]);
-        factory(Reply::class, 3)->create(['thread_id' => $threadWithNoReplies]);
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithThreeReplies->id]);
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithTwoReplies->id]);
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithNoReplies->id]);
 
         // Act: When We filter by popularity (eg. /threads?popular)
         $response = $this->get('threads?popular');
@@ -100,5 +100,21 @@ class ReadThreadsTest extends TestCase
             $threadWithTwoReplies->title,
             $threadWithNoReplies->title
         ]);
+    }
+
+    /** @test */
+    function user_can_filter_unanswered_threads()
+    {
+        $threadWithThreeReplies = factory(Thread::class)->create();
+        $threadAWithNoReplies = factory(Thread::class)->create();
+        $threadBWithNoReplies = factory(Thread::class)->create();
+
+        factory(Reply::class, 3)->create(['thread_id' => $threadWithThreeReplies->id]);
+
+        $response = $this->get('threads?unanswered');
+
+        $response->assertDontSee($threadWithThreeReplies->title);
+        $response->assertSee($threadAWithNoReplies->title);
+        $response->assertSee($threadBWithNoReplies->title);
     }
 }

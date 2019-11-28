@@ -57,7 +57,7 @@ class ThreadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Channel     $channel
+     * @param  \App\Channel $channel
      * @param  \App\Thread $thread
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

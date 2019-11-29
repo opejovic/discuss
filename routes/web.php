@@ -32,6 +32,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('threads/{thread}/likes', ['as' => 'likes.store', 'uses' => 'ThreadLikesController@store']);
     Route::delete('threads/{thread}/likes', ['as' => 'likes.destroy', 'uses' => 'ThreadLikesController@destroy']);
+
+    Route::post('threads/{thread}/subscribe',
+        [
+            'as' => 'threads.subscribe',
+            'uses' => 'ThreadSubscriptionsController@store'
+        ]
+    );
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');

@@ -56,4 +56,15 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $user->replies);
     }
+
+    /** @test */
+    function it_can_tell_if_its_subscribed_to_a_thread()
+    {
+        $thread = factory(Thread::class)->create();
+        $user = factory(User::class)->create();
+        $thread->subscribe($user->id);
+        $this->assertTrue($thread->subscriptions()->where('user_id', $user->id)->exists());
+
+        $this->assertTrue($user->isSubscribedTo($thread));
+    }
 }

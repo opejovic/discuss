@@ -86,4 +86,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Activity::class, 'user_id');
     }
+
+    /**
+     * @param  $model
+     * @return mixed
+     */
+    public function isSubscribedTo($model)
+    {
+        return $model->subscriptions()->where('user_id', $this->id)->exists();
+    }
 }

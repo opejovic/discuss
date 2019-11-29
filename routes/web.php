@@ -33,19 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::post('threads/{thread}/likes', ['as' => 'likes.store', 'uses' => 'ThreadLikesController@store']);
     Route::delete('threads/{thread}/likes', ['as' => 'likes.destroy', 'uses' => 'ThreadLikesController@destroy']);
 
-    Route::post('threads/{thread}/subscribe',
-        [
-            'as' => 'threads.subscribe',
-            'uses' => 'ThreadSubscriptionsController@store'
-        ]
-    );
-
-    Route::delete('threads/{thread}/unsubscribe',
-        [
-            'as' => 'threads.unsubscribe',
-            'uses' => 'ThreadSubscriptionsController@destroy'
-        ]
-    );
+    Route::post('threads/{thread}/subscribe', ['as' => 'threads.subscribe', 'uses' => 'ThreadSubscriptionsController@store']);
+    Route::delete('threads/{thread}/unsubscribe', ['as' => 'threads.unsubscribe', 'uses' => 'ThreadSubscriptionsController@destroy']);
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');

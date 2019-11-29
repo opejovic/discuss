@@ -106,4 +106,26 @@ class ThreadTest extends TestCase
         $this->thread->unlike();
         $this->assertFalse($this->thread->fresh()->hasBeenLiked);
     }
+
+    /** @test */
+    function a_thread_can_be_subscribed_to()
+    {
+        $thread = factory(Thread::class)->create();
+
+        $thread->subscribe($userId = 1);
+
+        $this->assertTrue($thread->subscriptions()->where('user_id', $userId)->exists());
+    }
+
+    /** @test */
+    function a_thread_can_be_unsubscribed_from()
+    {
+        $thread = factory(Thread::class)->create();
+        $thread->subscribe($userId = 1);
+        $this->assertTrue($thread->subscriptions()->where('user_id', $userId)->exists());
+
+        $thread->unsubscribe($userId);
+
+        $this->assertFalse($thread->fresh()->subscriptions()->where('user_id', $userId)->exists());
+    }
 }

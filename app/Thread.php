@@ -140,4 +140,11 @@ class Thread extends Model
         return $this->hasMany(ThreadSubscription::class, 'thread_id');
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsSubscribedToAttribute()
+    {
+        return $this->subscriptions()->where('user_id', auth()->id())->exists();
+    }
 }

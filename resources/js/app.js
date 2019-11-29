@@ -47,6 +47,7 @@ Vue.use(Toasted,  {
 
 Vue.component('navigation-bar', require('./components/NavigationBar.vue').default);
 Vue.component('like-button', require('./components/LikeButton.vue').default);
+Vue.component('subscribe-button', require('./components/SubscribeButton.vue').default);
 Vue.component('flash-message', require('./components/FlashMessage.vue').default);
 Vue.component('replies', require('./components/Replies.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);

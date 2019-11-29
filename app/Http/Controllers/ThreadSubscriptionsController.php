@@ -80,11 +80,17 @@ class ThreadSubscriptionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Thread  $thread
+     * @param  \App\Thread $thread
+     *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Thread $thread)
     {
-        //
+        abort_unless(auth()->user()->isSubscribedTo($thread), 403);
+
+        $thread->unsubscribe();
+
+        return response('Unsubscribed!', 200);
     }
 }

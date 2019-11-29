@@ -40,6 +40,18 @@ class SubscribeToThreadsTest extends TestCase
     }
 
     /** @test */
+    function authenticated_users_can_unsubscribe_from_threads()
+    {
+        $thread = factory(Thread::class)->create();
+        $john = factory(User::class)->create();
+        $thread->subscribe($john->id);
+
+        $this->actingAs($john)->delete(route('threads.unsubscribe', $thread));
+
+        $this->assertFalse($john->isSubscribedTo($thread));
+    }
+
+    /** @test */
     function authenticated_users_can_subscribe_to_thread_only_once()
     {
         $thread = factory(Thread::class)->create();

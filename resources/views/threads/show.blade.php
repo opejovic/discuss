@@ -26,6 +26,13 @@
                     destroy="{{ route('likes.destroy', $thread) }}"
                 >
                 </like-button>
+
+                <subscribe-button
+                    :item="{{ $thread }}"
+                    store="{{ route('threads.subscribe', $thread) }}"
+                    destroy="{{ route('threads.unsubscribe', $thread) }}"
+                >
+                </subscribe-button>
             @endauth
 
             @can('update', $thread)

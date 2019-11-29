@@ -64,7 +64,7 @@ class ThreadsController extends Controller
     public function show(Channel $channel, Thread $thread)
     {
         return view('threads.show', [
-            'thread' => $thread->append('hasBeenLiked'),
+            'thread' => $thread->append(['hasBeenLiked', 'isSubscribedTo']),
         ]);
     }
 

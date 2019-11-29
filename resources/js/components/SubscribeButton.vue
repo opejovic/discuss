@@ -2,20 +2,20 @@
     <button
         @click="toggle()"
         class="items-center justify-center border mx-1 font-bold border-gray-200 rounded p-1 inline-block flex text-xs leading-loose hover:border-red-300 focus:outline-none"
-        :class="isLiked ? 'border-red-400 bg-red-400 text-white' : 'text-gray-600'"
-        v-text="isLiked ? 'unlike' : 'like'"
+        :class="isSubscribedTo ? 'border-red-400 bg-red-400 text-white' : 'text-gray-600'"
+        v-text="isSubscribedTo ? 'unsubscribe' : 'subscribe'"
     >
-        like
+        subscribe
     </button>
 </template>
 
 <script>
     export default {
-        name: "LikeButton",
+        name: "SubscribeButton",
 
         data() {
             return {
-                isLiked: false
+                isSubscribedTo: false
             }
         },
 
@@ -36,45 +36,41 @@
         },
 
         mounted() {
-            this.isLiked = this.item.hasBeenLiked
+            this.isSubscribedTo = this.item.isSubscribedTo
         },
 
         computed: {
-            liked() {
-                return this.item.hasBeenLiked ? 'border-red-600' : '';
+            subscribed() {
+                return this.item.isSubscribedTo ? 'border-red-600' : '';
             }
         },
 
         methods: {
             toggle() {
-                if (this.isLiked) {
-                    return this.unlike()
+                if (this.isSubscribedTo) {
+                    return this.unsubscribe()
                 }
 
-                this.like()
+                this.subscribe()
             },
 
-            like() {
+            subscribe() {
                 axios
                     .post(this.store)
                     .then(response => {
-                        this.isLiked = true
+                        this.isSubscribedTo = true
                     })
                     .catch(errors => console.log(errors))
             },
 
-            unlike() {
+            unsubscribe() {
                 axios
                     .delete(this.destroy)
                     .then(response => {
-                        this.isLiked = false
+                        this.isSubscribedTo = false
                     })
                     .catch(errors => console.log(errors))
             }
         },
     }
 </script>
-
-<style scoped>
-
-</style>

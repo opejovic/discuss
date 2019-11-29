@@ -2613,6 +2613,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "SubscribeButton",
+  data: function data() {
+    return {
+      isSubscribedTo: false
+    };
+  },
+  props: {
+    item: {
+      type: Object,
+      "default": null
+    },
+    store: {
+      type: String,
+      "default": null
+    },
+    destroy: {
+      type: String,
+      "default": null
+    }
+  },
+  mounted: function mounted() {
+    this.isSubscribedTo = this.item.isSubscribedTo;
+  },
+  computed: {
+    subscribed: function subscribed() {
+      return this.item.isSubscribedTo ? 'border-red-600' : '';
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (this.isSubscribedTo) {
+        return this.unsubscribe();
+      }
+
+      this.subscribe();
+    },
+    subscribe: function subscribe() {
+      var _this = this;
+
+      axios.post(this.store).then(function (response) {
+        _this.isSubscribedTo = true;
+      })["catch"](function (errors) {
+        return console.log(errors);
+      });
+    },
+    unsubscribe: function unsubscribe() {
+      var _this2 = this;
+
+      axios["delete"](this.destroy).then(function (response) {
+        _this2.isSubscribedTo = false;
+      })["catch"](function (errors) {
+        return console.log(errors);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelSearchSelect.vue?vue&type=style&index=0&id=48614068&scoped=true&lang=css&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelSearchSelect.vue?vue&type=style&index=0&id=48614068&scoped=true&lang=css& ***!
@@ -38666,8 +38746,10 @@ var render = function() {
     "button",
     {
       staticClass:
-        "items-center justify-center rounded-full border border-gray-200 inline-block w-12 h-12 flex text-xs text-gray-600 leading-loose hover:text-red-500 hover:border-red-300 focus:outline-none",
-      class: _vm.isLiked ? "border-red-600" : "",
+        "items-center justify-center border mx-1 font-bold border-gray-200 rounded p-1 inline-block flex text-xs leading-loose hover:border-red-300 focus:outline-none",
+      class: _vm.isLiked
+        ? "border-red-400 bg-red-400 text-white"
+        : "text-gray-600",
       domProps: { textContent: _vm._s(_vm.isLiked ? "unlike" : "like") },
       on: {
         click: function($event) {
@@ -39351,6 +39433,48 @@ var render = function() {
         _vm.editing == false ? _c("span", [_vm._v(_vm._s(_vm.body))]) : _vm._e()
       ])
     ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass:
+        "items-center justify-center border mx-1 font-bold border-gray-200 rounded p-1 inline-block flex text-xs leading-loose hover:border-red-300 focus:outline-none",
+      class: _vm.isSubscribedTo
+        ? "border-red-400 bg-red-400 text-white"
+        : "text-gray-600",
+      domProps: {
+        textContent: _vm._s(_vm.isSubscribedTo ? "unsubscribe" : "subscribe")
+      },
+      on: {
+        click: function($event) {
+          return _vm.toggle()
+        }
+      }
+    },
+    [_vm._v("\n    subscribe\n")]
   )
 }
 var staticRenderFns = []
@@ -51561,6 +51685,7 @@ Vue.use(vue_toasted__WEBPACK_IMPORTED_MODULE_0___default.a, {
 
 Vue.component('navigation-bar', __webpack_require__(/*! ./components/NavigationBar.vue */ "./resources/js/components/NavigationBar.vue")["default"]);
 Vue.component('like-button', __webpack_require__(/*! ./components/LikeButton.vue */ "./resources/js/components/LikeButton.vue")["default"]);
+Vue.component('subscribe-button', __webpack_require__(/*! ./components/SubscribeButton.vue */ "./resources/js/components/SubscribeButton.vue")["default"]);
 Vue.component('flash-message', __webpack_require__(/*! ./components/FlashMessage.vue */ "./resources/js/components/FlashMessage.vue")["default"]);
 Vue.component('replies', __webpack_require__(/*! ./components/Replies.vue */ "./resources/js/components/Replies.vue")["default"]);
 Vue.component('paginator', __webpack_require__(/*! ./components/Paginator.vue */ "./resources/js/components/Paginator.vue")["default"]);
@@ -52204,6 +52329,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reply_vue_vue_type_template_id_8f05f2e2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reply_vue_vue_type_template_id_8f05f2e2_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscribeButton.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/SubscribeButton.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubscribeButton.vue?vue&type=template&id=f7ff20fe& */ "./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe&");
+/* harmony import */ var _SubscribeButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubscribeButton.vue?vue&type=script&lang=js& */ "./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SubscribeButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SubscribeButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscribeButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscribeButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SubscribeButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscribeButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SubscribeButton.vue?vue&type=template&id=f7ff20fe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SubscribeButton.vue?vue&type=template&id=f7ff20fe&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubscribeButton_vue_vue_type_template_id_f7ff20fe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

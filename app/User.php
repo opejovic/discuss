@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use Notifiable;
+
     /**
      * @return string
      */
@@ -16,8 +18,6 @@ class User extends Authenticatable
     {
         return 'name';
     }
-
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

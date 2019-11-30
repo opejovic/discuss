@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('threads/{thread}/subscribe', ['as' => 'threads.subscribe', 'uses' => 'ThreadSubscriptionsController@store']);
     Route::delete('threads/{thread}/unsubscribe', ['as' => 'threads.unsubscribe', 'uses' => 'ThreadSubscriptionsController@destroy']);
+
+    Route::get('notifications', ['as' => 'notifications.index', 'uses' => 'UserNotificationsController@index']);
+    Route::delete('notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'UserNotificationsController@destroy']);
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');

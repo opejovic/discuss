@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Traits\Likable;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\ThreadWasUpdated;
 use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
@@ -86,7 +87,15 @@ class Thread extends Model
      */
     public function addReply($attributes)
     {
-        return $this->replies()->create($attributes);
+        $reply = $this->replies()->create($attributes);
+
+        $this->subscriptions
+            ->filter(function ($subscription) use ($reply) {
+                return $subscription->user->isNot($reply->author);
+            })
+            ->each->notifySubscribers($reply);
+
+        return $reply;
     }
 
     /**

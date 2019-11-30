@@ -13,6 +13,13 @@ class CreateThreadsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+    }
+
     /** @test */
     function guests_cannot_create_threads()
     {
@@ -23,17 +30,16 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function authenticated_user_can_create_threads()
     {
-        $user = factory(User::class)->create();
-        $this->assertCount(0, $user->threads);
+        $this->assertCount(0, $this->user->threads);
         $channel = factory(Channel::class)->create(['id' => 1]);
 
-        $response = $this->actingAs($user)->post(route('threads.store'), [
+        $response = $this->actingAs($this->user)->post(route('threads.store'), [
             'channel_id' => $channel->fresh()->id,
             'title' => 'My first thread',
             'body' => 'Lorem ipsum dolor sit amet'
         ]);
 
-        $threads = $user->fresh()->threads;
+        $threads = $this->user->fresh()->threads;
         $this->assertCount(1, $threads);
         $response->assertRedirect($threads->first()->path());
     }
@@ -88,11 +94,10 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function thread_can_be_deleted_by_its_author()
     {
-        $user = factory(User::class)->create();
-        $thread = factory(Thread::class)->create(['user_id' => $user->id]);
+        $thread = factory(Thread::class)->create(['user_id' => $this->user->id]);
         $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
 
-        $response = $this->actingAs($user)->delete(route('threads.destroy', $thread));
+        $response = $this->actingAs($this->user)->delete(route('threads.destroy', $thread));
 
         $response->assertRedirect('home');
         $this->assertEquals(0, Thread::count());
@@ -112,10 +117,10 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function thread_cannot_be_deleted_by_unauthorized_members()
     {
-        $user = factory(User::class)->create();
+
         $thread = factory(Thread::class)->create();
 
-        $response = $this->actingAs($user)->delete(route('threads.destroy', $thread));
+        $response = $this->actingAs($this->user)->delete(route('threads.destroy', $thread));
 
         $response->assertStatus(403);
         $this->assertEquals(1, Thread::count());
@@ -123,9 +128,8 @@ class CreateThreadsTest extends TestCase
 
     public function publishThread($overrides)
     {
-        $user = factory(User::class)->create();
         $thread = factory(Thread::class)->make($overrides)->toArray();
 
-        return $this->actingAs($user)->post(route('threads.store'), $thread);
+        return $this->actingAs($this->user)->post(route('threads.store'), $thread);
     }
 }

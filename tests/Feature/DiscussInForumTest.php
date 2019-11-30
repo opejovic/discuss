@@ -29,7 +29,7 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function authenticated_users_can_discuss_in_threads()
     {
-        $response = $this->actingAs($this->user)
+        $this->actingAs($this->user)
             ->from($this->thread->path())
             ->post(route('replies.store', $this->thread), [
                 'body' => 'Very nice read! Keep up the good work!'
@@ -55,41 +55,38 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function authorized_users_can_delete_replies()
     {
-        $john = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([
-            'user_id' => $john->id
+            'user_id' => $this->user->id
         ]);
 
-        $this->actingAs($john)->delete(route('replies.destroy', $johnsReply));
+        $this->actingAs($this->user)->delete(route('replies.destroy', $johnsReply));
 
-        $this->assertEquals(0, $john->replies()->count());
+        $this->assertEquals(0, $this->user->replies()->count());
     }
 
     /** @test */
     function unauthorized_users_cannot_delete_replies()
     {
-        $john = factory(User::class)->create();
         $jane = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([
-            'user_id' => $john->id
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->actingAs($jane)->delete(route('replies.destroy', $johnsReply));
 
         $response->assertForbidden();
-        $this->assertEquals(1, $john->replies()->count());
+        $this->assertEquals(1, $this->user->replies()->count());
     }
 
     /** @test */
     function authorized_users_can_edit_replies()
     {
-        $john = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([
-            'user_id' => $john->id,
+            'user_id' => $this->user->id,
             'body' => 'Example reply'
         ]);
 
-        $this->actingAs($john)->patch(route('replies.update', $johnsReply), [
+        $this->actingAs($this->user)->patch(route('replies.update', $johnsReply), [
             'body' => 'The updated reply'
         ]);
 
@@ -99,10 +96,9 @@ class DiscussInForumTest extends TestCase
     /** @test */
     function unauthorized_users_cannot_edit_replies()
     {
-        $john = factory(User::class)->create();
         $jane = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([
-            'user_id' => $john->id,
+            'user_id' => $this->user->id,
             'body' => 'Example reply'
         ]);
 

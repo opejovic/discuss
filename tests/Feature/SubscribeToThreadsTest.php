@@ -12,6 +12,17 @@ class SubscribeToThreadsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $thread;
+    protected $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->thread = factory(Thread::class)->create();
+        $this->user = factory(User::class)->create();
+    }
+
     /** @test */
     function guests_cannot_subscribe_to_threads()
     {
@@ -21,44 +32,28 @@ class SubscribeToThreadsTest extends TestCase
     /** @test */
     function authenticated_users_can_subscribe_to_threads()
     {
-        $thread = factory(Thread::class)->create();
-        $john = factory(User::class)->create();
-        $jane = factory(User::class)->create();
+        $response = $this->actingAs($this->user)->post(route('threads.subscribe', $this->thread));
 
-        $response = $this->actingAs($john)->post(route('threads.subscribe', $thread));
         $response->assertSuccessful();
-        $this->assertTrue($thread->subscriptions()->where('user_id', $john->id)->exists());
-
-        // @TODO
-
-        // $thread->addReply([
-        //     'user_id' => $jane->id,
-        //     'body' => 'Some very constructive reply.'
-        // ]);
-
-        // $this->assertCount(1, $john->notifications);
+        $this->assertTrue($this->thread->subscriptions()->where('user_id', $this->user->id)->exists());
     }
 
     /** @test */
     function authenticated_users_can_unsubscribe_from_threads()
     {
-        $thread = factory(Thread::class)->create();
-        $john = factory(User::class)->create();
-        $thread->subscribe($john->id);
+        $this->thread->subscribe($this->user->id);
 
-        $this->actingAs($john)->delete(route('threads.unsubscribe', $thread));
+        $this->actingAs($this->user)->delete(route('threads.unsubscribe', $this->thread));
 
-        $this->assertFalse($john->isSubscribedTo($thread));
+        $this->assertFalse($this->user->isSubscribedTo($this->thread));
     }
 
     /** @test */
     function authenticated_users_can_subscribe_to_thread_only_once()
     {
-        $thread = factory(Thread::class)->create();
-        $user = factory(User::class)->create();
-        $thread->subscribe($user->id);
+        $this->thread->subscribe($this->user->id);
 
-        $response = $this->actingAs($user)->post(route('threads.subscribe', $thread));
+        $response = $this->actingAs($this->user)->post(route('threads.subscribe', $this->thread));
 
         $response->assertForbidden();
     }

@@ -7,6 +7,7 @@ use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationsTest extends TestCase
 {
@@ -39,14 +40,9 @@ class NotificationsTest extends TestCase
     /** @test */
     function user_can_fetch_his_notifications()
     {
-        $thread = factory(Thread::class)->create();
         $john = factory(User::class)->create();
-        $thread->subscribe($john->id);
-
-        $thread->addReply([
-            'user_id' => factory(User::class)->create()->id,
-            'body' => 'Some very constructive reply.'
-        ]);
+        auth()->login($john);
+        factory(DatabaseNotification::class)->create();
 
         $this->assertCount(1, $john->fresh()->unreadNotifications);
 
@@ -58,15 +54,10 @@ class NotificationsTest extends TestCase
     /** @test */
     function user_can_clear_a_notification()
     {
-        $thread = factory(Thread::class)->create();
         $john = factory(User::class)->create();
-        $jane = factory(User::class)->create();
-        $thread->subscribe($john->id);
+        auth()->login($john);
+        factory(DatabaseNotification::class)->create();
 
-        $thread->addReply([
-            'user_id' => $jane->id,
-            'body' => 'Some very constructive reply.'
-        ]);
 
         $this->assertCount(1, $john->fresh()->notifications);
 

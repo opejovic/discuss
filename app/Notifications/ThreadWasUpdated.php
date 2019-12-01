@@ -54,7 +54,9 @@ class ThreadWasUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Temporary placeholder'
+            'message' => "New reply on: {$this->thread->title}",
+            'thread_path' => route('threads.show', [$this->thread->channel, $this->thread]),
+            'reply' => $this->reply
         ];
     }
 }

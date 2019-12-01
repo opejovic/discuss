@@ -9,7 +9,7 @@
             </div>
 
             <!-- right section -->
-            <!-- hamburger icon -->
+                <!-- hamburger icon -->
             <div class="sm:hidden">
                 <button @click="toggle()" class="block focus:outline-none text-gray-500 hover:text-gray-600">
                     <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -19,35 +19,41 @@
                 </button>
             </div>
         </div>
-        <div class="px-4 pt-2 pb-4 sm:flex sm:items-center sm:p-0" :class="isOpen ? 'block' : 'hidden'">
-            <channel-search-select class="block" :channels="channels"></channel-search-select>
 
-            <a :class="activeRouteIndex" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                href="/threads">all threads</a>
+        <div class="flex items-center justify-end">
+            <user-notifications></user-notifications>
 
-            <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-               href="/threads/create">new thread</a>
+            <div class="px-4 pt-2 pb-4 sm:flex sm:items-center sm:p-0" :class="isOpen ? 'block' : 'hidden'">
+                <channel-search-select class="block" :channels="channels"></channel-search-select>
 
-            <!-- guest -->
-            <a v-if="! auth" :class="activeRouteLogin" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                href="/login">login</a>
+                <a :class="activeRouteIndex" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                    href="/threads">all threads</a>
 
-            <a v-if="! auth" :class="activeRouteRegister" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                href="/register">register</a>
+                <a v-if="auth" :class="activeRouteCreate" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                   href="/threads/create">new thread</a>
 
-            <!-- else -->
-            <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                @click="profilePage" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="auth.name">
-                <span class="caret"></span>
-            </a>
+                <!-- guest -->
+                <a v-if="! auth" :class="activeRouteLogin" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                    href="/login">login</a>
 
-            <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
-                href="/logout" @click.prevent="logout()">logout</a>
+                <a v-if="! auth" :class="activeRouteRegister" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                    href="/register">register</a>
 
-            <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                <input type="hidden" :value="csrfToken" name="_token"/>
-            </form>
+                <!-- else -->
+                <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                    @click="profilePage" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="auth.name">
+                    <span class="caret"></span>
+                </a>
+
+                <a v-if="auth" class="mt-1 block px-2 py-1 hover:bg-gray-200 hover:shadow-sm rounded text-gray-700 font-semibold sm:mt-0 sm:ml-2"
+                    href="/logout" @click.prevent="logout()">logout</a>
+
+                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                    <input type="hidden" :value="csrfToken" name="_token"/>
+                </form>
+            </div>
         </div>
+
     </header>
 </template>
 
@@ -55,7 +61,9 @@
     import ChannelSearchSelect from "./ChannelSearchSelect"
 
     export default {
-        components: { ChannelSearchSelect },
+        components: {
+            ChannelSearchSelect,
+        },
         props: ['currentRoute', 'channels'],
         data() {
             return {

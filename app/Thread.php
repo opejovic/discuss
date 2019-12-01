@@ -89,11 +89,7 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($attributes);
 
-        $this->subscriptions
-            ->filter(function ($subscription) use ($reply) {
-                return $subscription->user->isNot($reply->author);
-            })
-            ->each->notifySubscribers($reply);
+        $this->notifySubscribers($reply);
 
         return $reply;
     }
@@ -155,5 +151,18 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         return $this->subscriptions()->where('user_id', auth()->id())->exists();
+    }
+
+    /**
+     * Notify thread subscribers about the new reply.
+     *
+     * @param  \App\Reply $reply
+     */
+    public function notifySubscribers(Reply $reply)
+    {
+        $this->subscriptions
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);
     }
 }

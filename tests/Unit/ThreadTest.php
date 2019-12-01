@@ -7,6 +7,8 @@ use App\Reply;
 use App\Thread;
 use App\Channel;
 use Tests\TestCase;
+use App\Notifications\ThreadWasUpdated;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ThreadTest extends TestCase
@@ -67,6 +69,29 @@ class ThreadTest extends TestCase
         ]);
 
         $this->assertEquals(1, $this->thread->fresh()->replies->count());
+    }
+
+    /** @test */
+    function it_notifies_all_subscribers_when_a_new_reply_is_added_to_it()
+    {
+        Notification::fake();
+
+        $john = factory(User::class)->create();
+        $jane = factory(User::class)->create();
+        $jack = factory(User::class)->create();
+
+        $this->thread->subscribe($john->id);
+        $this->thread->subscribe($jane->id);
+        $this->thread->subscribe($jack->id);
+
+        $this->thread->addReply([
+            'user_id' => factory(User::class)->create()->id,
+            'body' => 'Lorem ipsum'
+        ]);
+
+        Notification::assertSentTo($john, ThreadWasUpdated::class);
+        Notification::assertSentTo($jane, ThreadWasUpdated::class);
+        Notification::assertSentTo($jack, ThreadWasUpdated::class);
     }
 
     /** @test */

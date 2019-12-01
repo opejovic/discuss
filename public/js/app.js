@@ -2816,9 +2816,6 @@ __webpack_require__.r(__webpack_exports__);
 
       this.isOpen = false;
     },
-    select: function select(notification) {
-      window.location.assign(notification.data.thread_path);
-    },
     remove: function remove(notification) {
       var _this2 = this;
 
@@ -39029,7 +39026,7 @@ var render = function() {
         "div",
         { staticClass: "flex items-center justify-end" },
         [
-          _c("user-notifications"),
+          _vm.auth ? _c("user-notifications") : _vm._e(),
           _vm._v(" "),
           _c(
             "div",
@@ -39804,14 +39801,12 @@ var render = function() {
                               },
                               [
                                 _c(
-                                  "div",
+                                  "a",
                                   {
                                     staticClass:
                                       "hover:bg-gray-300 p-4 -ml-4 cursor-pointer",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.select(notification)
-                                      }
+                                    attrs: {
+                                      href: notification.data.thread_path
                                     }
                                   },
                                   [

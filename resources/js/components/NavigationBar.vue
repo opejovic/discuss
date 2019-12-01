@@ -21,7 +21,7 @@
         </div>
 
         <div class="flex items-center justify-end">
-            <user-notifications></user-notifications>
+            <user-notifications v-if="auth"></user-notifications>
 
             <div class="px-4 pt-2 pb-4 sm:flex sm:items-center sm:p-0" :class="isOpen ? 'block' : 'hidden'">
                 <channel-search-select class="block" :channels="channels"></channel-search-select>

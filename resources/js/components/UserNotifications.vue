@@ -31,9 +31,9 @@
                             :key="notification.id"
                             class="flex items-center block px-4 py-1 text-gray-700 text-xs rounded"
                         >
-                            <div class="hover:bg-gray-300 p-4 -ml-4 cursor-pointer" @click="select(notification)">
+                            <a :href="notification.data.thread_path" class="hover:bg-gray-300 p-4 -ml-4 cursor-pointer">
                                 {{ notification.data.message }} {{ formattedTime(notification.data.reply) }}
-                            </div>
+                            </a>
                             <div id="delete" class="cursor-pointer" @click="remove(notification)">
                                 <svg class="w-5 h-5 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
@@ -109,10 +109,6 @@
                 }
 
                 this.isOpen = false
-            },
-
-            select(notification) {
-                window.location.assign(notification.data.thread_path);
             },
 
             remove(notification) {

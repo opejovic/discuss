@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Traits\Likable;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
-use App\Notifications\ThreadWasUpdated;
 use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
@@ -164,5 +163,20 @@ class Thread extends Model
             ->where('user_id', '!=', $reply->user_id)
             ->each
             ->notify($reply);
+    }
+
+    /**
+     * @param \App\User $user
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function hasUpdatesFor($user = null)
+    {
+        $user = $user ?: auth()->user();
+
+        $key = $user->visitedThreadCacheKey($this);
+
+        return $this->updated_at > cache($key);
     }
 }

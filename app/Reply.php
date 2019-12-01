@@ -10,6 +10,13 @@ class Reply extends Model
     use RecordsActivity;
 
     /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['thread'];
+
+    /**
      * Attributes that are not mass assignable.
      */
     protected $guarded = [];

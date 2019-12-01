@@ -58,11 +58,17 @@ class ThreadsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Channel $channel
-     * @param  \App\Thread $thread
+     * @param  \App\Thread  $thread
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function show(Channel $channel, Thread $thread)
     {
+        if (auth()->check()) {
+            auth()->user()->read($thread);
+        }
+
         return view('threads.show', [
             'thread' => $thread->append(['hasBeenLiked', 'isSubscribedTo']),
         ]);

@@ -20,6 +20,7 @@ class ThreadTest extends TestCase
         parent::setUp();
 
         $this->thread = factory(Thread::class)->create();
+        $this->user = factory(User::class)->create();
     }
 
     /** @test */
@@ -45,9 +46,8 @@ class ThreadTest extends TestCase
     /** @test */
     function it_has_an_author()
     {
-        $john = factory(User::class)->create();
-        $thread = factory(Thread::class)->create(['user_id' => $john->id]);
-        $this->assertTrue($thread->author->is($john));
+        $thread = factory(Thread::class)->create(['user_id' => $this->user->id]);
+        $this->assertTrue($thread->author->is($this->user));
     }
 
     /** @test */
@@ -105,7 +105,7 @@ class ThreadTest extends TestCase
     /** @test */
     function it_can_be_liked()
     {
-        auth()->login(factory(User::class)->create());
+        auth()->login($this->user);
 
         $this->thread->like();
 
@@ -115,7 +115,7 @@ class ThreadTest extends TestCase
     /** @test */
     function it_knows_if_it_has_been_liked()
     {
-        auth()->login(factory(User::class)->create());
+        auth()->login($this->user);
         $this->thread->like();
 
         $this->assertTrue($this->thread->hasBeenLiked);
@@ -124,7 +124,7 @@ class ThreadTest extends TestCase
     /** @test */
     function it_can_be_unliked()
     {
-        auth()->login(factory(User::class)->create());
+        auth()->login($this->user);
         $this->thread->like();
         $this->assertTrue($this->thread->hasBeenLiked);
 
@@ -135,22 +135,35 @@ class ThreadTest extends TestCase
     /** @test */
     function a_thread_can_be_subscribed_to()
     {
-        $thread = factory(Thread::class)->create();
+        $this->thread->subscribe($userId = 1);
 
-        $thread->subscribe($userId = 1);
-
-        $this->assertTrue($thread->subscriptions()->where('user_id', $userId)->exists());
+        $this->assertTrue($this->thread->subscriptions()->where('user_id', $userId)->exists());
     }
 
     /** @test */
     function a_thread_can_be_unsubscribed_from()
     {
-        $thread = factory(Thread::class)->create();
-        $thread->subscribe($userId = 1);
-        $this->assertTrue($thread->subscriptions()->where('user_id', $userId)->exists());
+        $this->thread->subscribe($userId = 1);
+        $this->assertTrue($this->thread->subscriptions()->where('user_id', $userId)->exists());
 
-        $thread->unsubscribe($userId);
+        $this->thread->unsubscribe($userId);
+        $this->assertFalse($this->thread->fresh()->subscriptions()->where('user_id', $userId)->exists());
+    }
 
-        $this->assertFalse($thread->fresh()->subscriptions()->where('user_id', $userId)->exists());
+    /** @test */
+    function it_can_tell_if_logged_in_user_has_read_all_of_its_replies()
+    {
+        auth()->login($this->user);
+        $this->thread->subscribe();
+
+        $this->thread->addReply([
+            'user_id' => factory(User::class)->create()->id,
+            'body' => 'Random reply'
+        ]);
+
+        $this->assertTrue($this->thread->fresh()->hasUpdatesFor($this->user));
+
+        $this->user->read($this->thread);
+        $this->assertFalse($this->thread->fresh()->hasUpdatesFor($this->user));
     }
 }

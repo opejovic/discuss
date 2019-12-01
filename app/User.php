@@ -95,4 +95,25 @@ class User extends Authenticatable
     {
         return $model->subscriptions()->where('user_id', $this->id)->exists();
     }
+
+    /**
+     * @param $thread
+     *
+     * @throws \Exception
+     */
+    public function read($thread)
+    {
+        $key = $this->visitedThreadCacheKey($thread);
+        cache()->forever($key, now());
+    }
+
+    /**
+     * @param $thread
+     *
+     * @return string
+     */
+    public function visitedThreadCacheKey($thread)
+    {
+        return sprintf('users.%s.visits.%s', $this->id, $thread->id);
+    }
 }

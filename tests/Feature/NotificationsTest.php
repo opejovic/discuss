@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationsTest extends TestCase

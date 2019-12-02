@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
 use App\Reply;
 use App\Thread;
+use App\Channel;
 use Illuminate\Http\Request;
 
 class RepliesController extends Controller

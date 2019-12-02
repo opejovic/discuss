@@ -4,18 +4,11 @@
     @forelse ($threads as $thread)
         <div class="mx-auto text-center text-gray-800 sm:w-1/3 w-full break-words">
             <a class="text-lg" href="{{ route('threads.show', [$thread->channel, $thread]) }}">
-                @auth()
-                    @if($thread->hasUpdatesFor(auth()->user()))
-                        <span class="font-bold">{{ $thread->title }}</span>
-
-                    @else
-                        {{ $thread->title }}
-                    @endif
-                @endauth
-
-                @guest()
+                @if(auth()->check() && $thread->hasUpdatesFor(auth()->user()))
+                    <span class="font-bold">{{ $thread->title }}</span>
+                @else
                     {{ $thread->title }}
-                @endguest
+                @endif
             </a>
 
             <div class="text-gray-700 text-sm pt-2">

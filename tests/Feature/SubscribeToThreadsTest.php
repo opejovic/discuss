@@ -24,13 +24,13 @@ class SubscribeToThreadsTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_subscribe_to_threads()
+    public function guests_cannot_subscribe_to_threads()
     {
         $this->post(route('threads.subscribe', 1))->assertRedirect('login');
     }
 
     /** @test */
-    function authenticated_users_can_subscribe_to_threads()
+    public function authenticated_users_can_subscribe_to_threads()
     {
         $response = $this->actingAs($this->user)->post(route('threads.subscribe', $this->thread));
 
@@ -39,7 +39,7 @@ class SubscribeToThreadsTest extends TestCase
     }
 
     /** @test */
-    function authenticated_users_can_unsubscribe_from_threads()
+    public function authenticated_users_can_unsubscribe_from_threads()
     {
         $this->thread->subscribe($this->user->id);
 
@@ -49,7 +49,7 @@ class SubscribeToThreadsTest extends TestCase
     }
 
     /** @test */
-    function authenticated_users_can_subscribe_to_thread_only_once()
+    public function authenticated_users_can_subscribe_to_thread_only_once()
     {
         $this->thread->subscribe($this->user->id);
 

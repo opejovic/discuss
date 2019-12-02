@@ -12,7 +12,7 @@ class ProfilesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function user_has_a_profile()
+    public function user_has_a_profile()
     {
         $user = factory(User::class)->create();
 

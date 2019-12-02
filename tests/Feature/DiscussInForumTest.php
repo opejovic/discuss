@@ -21,13 +21,13 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_discuss_in_forum()
+    public function guests_cannot_discuss_in_forum()
     {
         $this->post('threads/1/replies', [])->assertRedirect('login');
     }
 
     /** @test */
-    function authenticated_users_can_discuss_in_threads()
+    public function authenticated_users_can_discuss_in_threads()
     {
         $this->actingAs($this->user)
             ->from($this->thread->path())
@@ -40,7 +40,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function in_order_to_save_a_reply_a_body_is_required()
+    public function in_order_to_save_a_reply_a_body_is_required()
     {
         $response = $this->actingAs($this->user)
             ->from($this->thread->path())
@@ -53,7 +53,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function authorized_users_can_delete_replies()
+    public function authorized_users_can_delete_replies()
     {
         $johnsReply = factory(Reply::class)->create([
             'user_id' => $this->user->id
@@ -65,7 +65,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function unauthorized_users_cannot_delete_replies()
+    public function unauthorized_users_cannot_delete_replies()
     {
         $jane = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([
@@ -79,7 +79,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function authorized_users_can_edit_replies()
+    public function authorized_users_can_edit_replies()
     {
         $johnsReply = factory(Reply::class)->create([
             'user_id' => $this->user->id,
@@ -94,7 +94,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function unauthorized_users_cannot_edit_replies()
+    public function unauthorized_users_cannot_edit_replies()
     {
         $jane = factory(User::class)->create();
         $johnsReply = factory(Reply::class)->create([

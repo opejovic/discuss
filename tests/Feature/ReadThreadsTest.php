@@ -23,7 +23,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_browse_threads()
+    public function a_user_can_browse_threads()
     {
         $response = $this->get('/threads');
 
@@ -33,7 +33,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_read_a_thread()
+    public function a_user_can_read_a_thread()
     {
         $response = $this->get($this->thread->path());
 
@@ -44,7 +44,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_read_replies_that_are_associated_with_a_thread()
+    public function a_user_can_read_replies_that_are_associated_with_a_thread()
     {
         $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
 
@@ -54,7 +54,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function user_can_filter_threads_by_their_channel()
+    public function user_can_filter_threads_by_their_channel()
     {
         $channel = factory(Channel::class)->create();
         $threadInChannel = factory(Thread::class)->create(['channel_id' => $channel->id]);
@@ -67,7 +67,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function user_can_filter_threads_by_any_username()
+    public function user_can_filter_threads_by_any_username()
     {
         $john = factory(User::class)->create(['name' => 'John']);
         $threadByJohn = factory(Thread::class)->create(['user_id' => $john->id]);
@@ -80,7 +80,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function user_can_filter_threads_by_popularity()
+    public function user_can_filter_threads_by_popularity()
     {
         // Arrange: Two threads, one with 3 replies, one with 2 replies, and one with no replies
         $threadWithThreeReplies = factory(Thread::class)->create(['created_at' => now()->subDay()]);
@@ -103,7 +103,7 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function user_can_filter_unanswered_threads()
+    public function user_can_filter_unanswered_threads()
     {
         $threadWithThreeReplies = factory(Thread::class)->create();
         $threadAWithNoReplies = factory(Thread::class)->create();

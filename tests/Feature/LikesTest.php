@@ -24,9 +24,8 @@ class LikesTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_can_like_any_thread()
+    public function authenticated_user_can_like_any_thread()
     {
-
         $response = $this->actingAs($this->user)->post(route('likes.store', $this->thread));
 
         $response->assertCreated();
@@ -34,7 +33,7 @@ class LikesTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_cannot_like_any_thread_more_than_once()
+    public function authenticated_user_cannot_like_any_thread_more_than_once()
     {
         auth()->login($this->user);
         $this->thread->like();
@@ -47,7 +46,7 @@ class LikesTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_can_unlike_any_thread_they_have_liked()
+    public function authenticated_user_can_unlike_any_thread_they_have_liked()
     {
         auth()->login($this->user);
         $this->thread->like();
@@ -59,4 +58,3 @@ class LikesTest extends TestCase
         $this->assertEquals(0, $this->thread->fresh()->likes()->count());
     }
 }
-

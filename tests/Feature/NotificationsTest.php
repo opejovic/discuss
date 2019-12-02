@@ -14,7 +14,7 @@ class NotificationsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function notification_is_prepared_when_the_reply_is_left_not_by_current_user()
+    public function notification_is_prepared_when_the_reply_is_left_not_by_current_user()
     {
         $thread = factory(Thread::class)->create();
         $john = factory(User::class)->create();
@@ -38,7 +38,7 @@ class NotificationsTest extends TestCase
     }
 
     /** @test */
-    function user_can_fetch_his_notifications()
+    public function user_can_fetch_his_notifications()
     {
         $john = factory(User::class)->create();
         auth()->login($john);
@@ -52,7 +52,7 @@ class NotificationsTest extends TestCase
     }
 
     /** @test */
-    function user_can_clear_a_notification()
+    public function user_can_clear_a_notification()
     {
         $john = factory(User::class)->create();
         auth()->login($john);
@@ -67,5 +67,4 @@ class NotificationsTest extends TestCase
 
         $this->assertCount(0, $john->fresh()->notifications);
     }
-
 }

@@ -21,14 +21,14 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_create_threads()
+    public function guests_cannot_create_threads()
     {
         $this->get(route('threads.create'))->assertRedirect('login');
         $this->post(route('threads.store'), [])->assertRedirect('login');
     }
 
     /** @test */
-    function authenticated_user_can_create_threads()
+    public function authenticated_user_can_create_threads()
     {
         $this->assertCount(0, $this->user->threads);
         $channel = factory(Channel::class)->create(['id' => 1]);
@@ -45,7 +45,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function title_is_required()
+    public function title_is_required()
     {
         $this->publishThread([
             'title' => null,
@@ -53,7 +53,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function body_is_required()
+    public function body_is_required()
     {
         $this->publishThread([
             'body' => null,
@@ -61,7 +61,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function valid_channel_is_required()
+    public function valid_channel_is_required()
     {
         $this->publishThread([
            'channel_id' => 999
@@ -73,7 +73,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function channel_must_be_existing_channel()
+    public function channel_must_be_existing_channel()
     {
         $this->publishThread([
            'channel_id' => '123123'
@@ -81,7 +81,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function guests_cannot_delete_any_threads()
+    public function guests_cannot_delete_any_threads()
     {
         $thread = factory(Thread::class)->create();
 
@@ -92,7 +92,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function thread_can_be_deleted_by_its_author()
+    public function thread_can_be_deleted_by_its_author()
     {
         $thread = factory(Thread::class)->create(['user_id' => $this->user->id]);
         $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
@@ -115,9 +115,8 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function thread_cannot_be_deleted_by_unauthorized_members()
+    public function thread_cannot_be_deleted_by_unauthorized_members()
     {
-
         $thread = factory(Thread::class)->create();
 
         $response = $this->actingAs($this->user)->delete(route('threads.destroy', $thread));

@@ -19,6 +19,9 @@ abstract class Filters
      */
     protected $builder;
 
+    /**
+     * @var Array
+     */
     protected $filters = [];
 
     /**

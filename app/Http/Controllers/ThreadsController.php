@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use App\Channel;
+use App\Utilities\Spam;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use Illuminate\Support\Collection;
@@ -39,15 +40,20 @@ class ThreadsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
+     * @param  \App\Utilities\Spam      $spam
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
      */
-    public function store(Request $request)
+    public function store(Request $request, Spam $spam)
     {
         $attributes = $request->validate([
-            'title'      => ['required', 'min:2'],
-            'body'       => ['required', 'min:2'],
+            'title'      => ['required', 'min:2', 'not_regex:/(.)\\1{4,}/'],
+            'body'       => ['required', 'min:2', 'not_regex:/(.)\\1{4,}/'],
             'channel_id' => ['required', 'exists:channels,id'],
         ]);
+
+        $spam->detect(request('body'));
 
         $thread = Auth::user()->publishThread($attributes);
 

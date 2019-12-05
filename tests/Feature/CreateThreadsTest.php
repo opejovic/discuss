@@ -45,6 +45,34 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
+    public function thread_cannot_be_created_if_its_title_contains_more_than_4_consecutive_characters()
+    {
+        $this->publishThread([
+            'title' => 'AAAAAAAAAAAA',
+        ])->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    public function thread_cannot_be_created_if_its_body_contains_more_than_4_consecutive_characters()
+    {
+        $this->publishThread([
+            'body' => 'AAAAAAAAAAAA',
+        ])->assertSessionHasErrors('body');
+    }
+
+    /** @test */
+    public function thread_cannot_be_created_if_its_body_contains_spam_keywords()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->expectException(\Exception::class);
+
+        $this->publishThread([
+            'body' => 'have win apple iphone',
+        ]);
+    }
+
+    /** @test */
     public function title_is_required()
     {
         $this->publishThread([

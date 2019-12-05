@@ -52,7 +52,6 @@ class ActivityTest extends TestCase
     /** @test */
     function it_fetches_feed_for_any_user()
     {
-        // Arrange - a thread from a week ago, and another one from today
         auth()->login($user = factory(User::class)->create());
         $threadFromLastWeek = factory(Thread::class)->create(['created_at' => now()->subWeek()]);
         $threadFromToday = factory(Thread::class)->create();
@@ -61,10 +60,8 @@ class ActivityTest extends TestCase
             ->first()
             ->update(['created_at' => now()->subWeek()]);
 
-        // Act - when we fetch the feed
         $response = $this->get("profiles/{$user->name}");
 
-        // Assert - it should be returned in the proper order
         $response->assertSeeInOrder([
             $threadFromToday->title,
             $threadFromLastWeek->title

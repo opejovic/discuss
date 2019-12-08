@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ThreadStoreRequest;
 
 class ThreadsController extends Controller
 {
@@ -39,23 +40,17 @@ class ThreadsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Inspections\Spam    $spam
+     * @param  \App\Http\Requests\ThreadStoreRequest $request
+     * @param  \App\Inspections\Spam                    $spam
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Throwable
      */
-    public function store(Request $request, Spam $spam)
+    public function store(ThreadStoreRequest $request, Spam $spam)
     {
-        $attributes = $request->validate([
-            'title'      => ['required', 'min:2'],
-            'body'       => ['required', 'min:2'],
-            'channel_id' => ['required', 'exists:channels,id'],
-        ]);
+        $spam->detect($request->body);
 
-        $spam->detect(request('body'));
-
-        $thread = Auth::user()->publishThread($attributes);
+        $thread = Auth::user()->publishThread($request->all());
 
         return redirect($thread->path())->with('flash', 'Thread created!');
     }
@@ -65,7 +60,6 @@ class ThreadsController extends Controller
      *
      * @param  \App\Channel $channel
      * @param  \App\Thread  $thread
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
      */

@@ -3,7 +3,6 @@
 
 namespace App\Traits;
 
-
 use App\Like;
 use Illuminate\Database\Eloquent\Model;
 

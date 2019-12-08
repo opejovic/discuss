@@ -3,7 +3,6 @@
 
 namespace App\Inspections;
 
-
 interface Inspection
 {
     /**

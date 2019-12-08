@@ -53,6 +53,19 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
+    public function in_order_to_save_a_reply_a_body_cannot_contain_spam()
+    {
+        $response = $this->actingAs($this->user)
+            ->from($this->thread->path())
+            ->post(route('replies.store', $this->thread), [
+                'body' => 'AAAAAAAAAAAAAAA'
+            ]);
+
+        $response->assertSessionHasErrors('body');
+        $this->assertEquals(0, Reply::all()->count());
+    }
+
+    /** @test */
     public function authorized_users_can_delete_replies()
     {
         $johnsReply = factory(Reply::class)->create([

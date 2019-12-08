@@ -15,8 +15,19 @@ class KeyHeldDown implements Inspection
      */
     public function detect($text)
     {
-        if (preg_match('/(.)\\1{4,}/', $text)) {
-            throw(new Exception('Spam detected!'));
+        if ($this->textContainsKeyHeldDown($text)) {
+            throw new Exception;
         }
+    }
+
+    /**
+     * Does the text contain key held down characters?
+     *
+     * @param  $text
+     * @return false|int
+     */
+    private function textContainsKeyHeldDown($text)
+    {
+        return preg_match('/(.)\\1{4,}/', $text);
     }
 }

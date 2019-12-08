@@ -88,7 +88,7 @@ class RepliesController extends Controller
         $this->authorize('update', $reply);
 
         request()->validate([
-            'body' => ['required', 'min:2']
+            'body' => ['required', 'min:2', new SpamRule]
         ]);
 
         $reply->update([

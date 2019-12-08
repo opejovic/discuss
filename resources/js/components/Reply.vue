@@ -11,7 +11,8 @@
                 </div>
                 <div v-if="canUpdate" class="flex items-center justify-between">
                     <button @click="editing = true" class="focus:outline-none mr-2" v-if="!editing">
-                        <svg class="w-3 h-3 text-gray-600 hover:text-gray-700 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 text-gray-600 hover:text-gray-700 fill-current"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path
                                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
                         </svg>
@@ -20,22 +21,28 @@
             </div>
 
             <div v-if="editing">
-                <textarea class="border border-gray-200 rounded w-full focus:outline-none p-2 -mb-2" name="body" v-model="body"></textarea>
+                <textarea class="border rounded w-full focus:outline-none p-2 -mb-2" name="body"
+                          :class="errors.body ? 'border-red-500' : 'border-gray-200'"
+                          @keydown="clearErrors"
+                          v-model="body"></textarea>
                 <span class="text-xs text-red-500" v-if="errors.body">{{ errors.body[0] }}</span>
 
                 <div class="flex pt-4">
                     <form @click.prevent="update()" v-if="editing">
-                        <button type="submit" class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
+                        <button type="submit"
+                                class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
                             Save
                         </button>
                     </form>
 
-                    <button @click="cancel()" class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
+                    <button @click="cancel()"
+                            class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
                         Cancel
                     </button>
 
                     <form @click.prevent="remove(reply)" v-if="editing">
-                        <button type="submit" class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
+                        <button type="submit"
+                                class="mr-2 border rounded border-gray-200 hover:bg-gray-300 focus:outline-none p-2 text-gray-600 text-xs font-semibold">
                             Delete
                         </button>
                     </form>
@@ -105,7 +112,7 @@
             },
 
             update(reply) {
-                if (! this.changed) {
+                if (!this.changed) {
                     return this.cancel()
                 }
 
@@ -119,13 +126,16 @@
                     })
                     .catch(error => {
                         this.errors = error.response.data.errors
-                        console.log(error.response.data.errors);
                     });
             },
 
             cancel() {
                 this.editing = false
                 this.body = this.reply.body
+            },
+
+            clearErrors() {
+                this.errors = [];
             }
         },
     }

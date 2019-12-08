@@ -2558,6 +2558,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Reply",
@@ -2617,12 +2624,14 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$toasted.show('Reply updated');
       })["catch"](function (error) {
         _this2.errors = error.response.data.errors;
-        console.log(error.response.data.errors);
       });
     },
     cancel: function cancel() {
       this.editing = false;
       this.body = this.reply.body;
+    },
+    clearErrors: function clearErrors() {
+      this.errors = [];
     }
   }
 });
@@ -39554,10 +39563,12 @@ var render = function() {
                   }
                 ],
                 staticClass:
-                  "border border-gray-200 rounded w-full focus:outline-none p-2 -mb-2",
+                  "border rounded w-full focus:outline-none p-2 -mb-2",
+                class: _vm.errors.body ? "border-red-500" : "border-gray-200",
                 attrs: { name: "body" },
                 domProps: { value: _vm.body },
                 on: {
+                  keydown: _vm.clearErrors,
                   input: function($event) {
                     if ($event.target.composing) {
                       return

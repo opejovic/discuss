@@ -6,6 +6,7 @@ use App\Reply;
 use App\Thread;
 use App\Rules\SpamRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RepliesController extends Controller
 {
@@ -34,6 +35,7 @@ class RepliesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Thread $thread
+     * @throws \Exception
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function store(Thread $thread)
@@ -47,14 +49,14 @@ class RepliesController extends Controller
             'body' => $validated['body']
         ]);
 
-        return response('Reply created!', 200);
+        return response('Reply created!', 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  Reply $reply
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function show(Reply $reply)
     {
@@ -95,7 +97,7 @@ class RepliesController extends Controller
            'body' => request('body')
         ]);
 
-        return response('Reply updated!', 200);
+        return response('Reply updated!', 201);
     }
 
     /**
@@ -113,7 +115,7 @@ class RepliesController extends Controller
         $reply->delete();
 
         if (request()->expectsJson()) {
-            return response(['Reply deleted'], 200);
+            return response(['Reply deleted'], 201);
         }
 
         return back();

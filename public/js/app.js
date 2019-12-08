@@ -2255,11 +2255,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['thread'],
   data: function data() {
     return {
-      body: null
+      body: null,
+      errors: {}
     };
   },
   computed: {
@@ -2280,10 +2286,14 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit('created');
       })["catch"](function (errors) {
-        console.log({
-          errors: errors
-        });
+        _this.errors = errors.response.data.errors;
       });
+    },
+    hasErrors: function hasErrors(prop) {
+      return this.errors.hasOwnProperty(prop);
+    },
+    clearErrors: function clearErrors() {
+      this.errors = {};
     }
   }
 });
@@ -39191,7 +39201,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "sm:w-1/2 pt-2 w-full pt-5" }, [
+  return _c("div", { staticClass: "lg:w-1/2 pt-2 w-full pt-5" }, [
     _c(
       "form",
       {
@@ -39214,10 +39224,12 @@ var render = function() {
               }
             ],
             staticClass:
-              "w-full text-gray-700 placeholder-gray-500 text-sm border border-gray-200 p-3 rounded-lg focus:outline-none",
+              "w-full text-gray-700 placeholder-gray-500 text-sm border p-3 rounded-lg focus:outline-none",
+            class: _vm.hasErrors("body") ? "border-red-500" : "border-gray-200",
             attrs: { id: "", rows: "4", placeholder: "Have something to say?" },
             domProps: { value: _vm.body },
             on: {
+              keydown: _vm.clearErrors,
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -39225,7 +39237,17 @@ var render = function() {
                 _vm.body = $event.target.value
               }
             }
-          })
+          }),
+          _vm._v(" "),
+          _vm.hasErrors("body")
+            ? _c("div", { staticClass: "text-red-500 text-xs -mt-1 mb-2" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.errors.body[0]) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c(
@@ -39235,7 +39257,7 @@ var render = function() {
               "rounded-lg shadow bg-gray-200 hover:bg-gray-300 w-full sm:block px-4 py-2 uppercase text-gray-700 text-xs",
             attrs: { type: "submit" }
           },
-          [_vm._v("Submit")]
+          [_vm._v("\n            Submit\n        ")]
         )
       ]
     )

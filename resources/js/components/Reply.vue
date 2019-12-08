@@ -80,7 +80,7 @@
 
         computed: {
             published_at() {
-                return moment(this.reply.created_at).startOf('hour').fromNow();
+                return moment(this.reply.created_at).fromNow();
             },
 
             canUpdate() {

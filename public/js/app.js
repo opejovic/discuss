@@ -2583,7 +2583,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     published_at: function published_at() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.reply.created_at).startOf('hour').fromNow();
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.reply.created_at).fromNow();
     },
     canUpdate: function canUpdate() {
       if (auth) {

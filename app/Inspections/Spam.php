@@ -2,6 +2,8 @@
 
 namespace App\Inspections;
 
+use Exception;
+
 class Spam implements Inspection
 {
     /**
@@ -11,23 +13,26 @@ class Spam implements Inspection
      */
     protected $inspections = [
         InvalidKeywords::class,
-        KeyHeldDown::class
+        KeyHeldDown::class,
     ];
 
     /**
-     * Detect if the text contains spam.
+     * Inspect the text for invalid words or spam.
      *
      * @param  string $body
-     *
-     * @return bool
      * @throws \Throwable
+     * @return bool
      */
-    public function detect($body)
+    public function inspect($body)
     {
-        foreach ($this->inspections as $inspection) {
-            app($inspection)->detect($body);
-        }
+        try {
+            foreach ($this->inspections as $inspection) {
+                app($inspection)->inspect($body);
+            }
 
-        return false;
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

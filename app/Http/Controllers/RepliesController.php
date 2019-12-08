@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use App\Thread;
-use App\Inspections\Spam;
+use App\Rules\SpamRule;
 use Illuminate\Http\Request;
 
 class RepliesController extends Controller
@@ -34,18 +34,13 @@ class RepliesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Thread $thread
-     * @param  Spam   $spam
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function store(Thread $thread, Spam $spam)
+    public function store(Thread $thread)
     {
         $validated = request()->validate([
-           'body' => ['required', 'min:3']
+           'body' => ['required', 'min:3', new SpamRule]
         ]);
-
-        $spam->detect($validated['body']);
 
         $thread->addReply([
             'user_id' => auth()->id(),
@@ -96,15 +91,11 @@ class RepliesController extends Controller
             'body' => ['required', 'min:2']
         ]);
 
-        $reply = $reply->update([
+        $reply->update([
            'body' => request('body')
         ]);
 
-        if (request()->expectsJson()) {
-            return response('Reply updated', 200);
-        }
-
-        return back()->with('flash', 'Reply updated!');
+        return response('Reply updated!', 200);
     }
 
     /**

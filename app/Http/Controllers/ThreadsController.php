@@ -48,8 +48,6 @@ class ThreadsController extends Controller
      */
     public function store(ThreadStoreRequest $request, Spam $spam)
     {
-        $spam->detect($request->body);
-
         $thread = Auth::user()->publishThread($request->all());
 
         return redirect($thread->path())->with('flash', 'Thread created!');

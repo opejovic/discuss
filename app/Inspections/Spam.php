@@ -14,6 +14,7 @@ class Spam implements Inspection
     protected $inspections = [
         InvalidKeywords::class,
         KeyHeldDown::class,
+        RepliedRecently::class
     ];
 
     /**
@@ -32,7 +33,7 @@ class Spam implements Inspection
 
             return true;
         } catch (Exception $e) {
-            return false;
+            return $e->getMessage();
         }
     }
 }

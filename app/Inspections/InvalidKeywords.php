@@ -21,7 +21,7 @@ class InvalidKeywords implements Inspection
     {
         foreach ($this->keywords as $keyword) {
             if ($this->textContainsInvalidKeyword($text, $keyword)) {
-                throw new Exception;
+                $this->warn();
             }
         }
     }
@@ -36,5 +36,13 @@ class InvalidKeywords implements Inspection
     private function textContainsInvalidKeyword($text, $spam)
     {
         return stripos($text, $spam) !== false;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function warn()
+    {
+        throw new Exception('It looks like you are trying to spam. Just dont.');
     }
 }

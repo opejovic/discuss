@@ -7,6 +7,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class SpamRule implements Rule
 {
+    protected $errorMessage;
+
     /**
      * Determine if the validation rule passes.
      *
@@ -16,7 +18,14 @@ class SpamRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return app(Spam::class)->inspect($value);
+        $inspection = app(Spam::class)->inspect($value);
+
+        if (is_string($inspection)) {
+            $this->errorMessage = $inspection;
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -26,6 +35,6 @@ class SpamRule implements Rule
      */
     public function message()
     {
-        return 'The :attribute contains spam.';
+        return $this->errorMessage;
     }
 }

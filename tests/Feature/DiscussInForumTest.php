@@ -96,7 +96,7 @@ class DiscussInForumTest extends TestCase
     {
         $johnsReply = factory(Reply::class)->create([
             'user_id' => $this->user->id,
-            'body' => 'Example reply'
+            'body' => 'Example reply',
         ]);
 
         $this->actingAs($this->user)->patch(route('replies.update', $johnsReply), [
@@ -121,5 +121,35 @@ class DiscussInForumTest extends TestCase
 
         $response->assertForbidden();
         $this->assertEquals('Example reply', $johnsReply->fresh()->body);
+    }
+
+    /** @test */
+    function users_can_reply_only_once_per_minute()
+    {
+        $this->assertCount(0, Reply::all());
+
+        $this->replyTwice();
+
+        $this->assertOnlyOneReplyHasBeenCreated();
+    }
+
+    private function replyTwice()
+    {
+        $this->actingAs($this->user)
+            ->post(route('replies.store', $this->thread), [
+                    'body' => 'First reply. It should be saved.'
+                ]
+            )->assertCreated();
+
+        $this->actingAs($this->user)
+            ->post(route('replies.store', $this->thread), [
+                    'body' => 'Second reply, immediately after the first. It should not be allowed.'
+                ]
+            );
+    }
+
+    private function assertOnlyOneReplyHasBeenCreated()
+    {
+        $this->assertCount(1, Reply::all());
     }
 }

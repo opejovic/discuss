@@ -16,7 +16,7 @@ class KeyHeldDown implements Inspection
     public function inspect($text)
     {
         if ($this->textContainsKeyHeldDown($text)) {
-            throw new Exception;
+            $this->warn();
         }
     }
 
@@ -29,5 +29,13 @@ class KeyHeldDown implements Inspection
     private function textContainsKeyHeldDown($text)
     {
         return preg_match('/(.)\\1{4,}/', $text);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function warn()
+    {
+        throw new Exception('Holding down keys much? Cat sat on your keyboard?');
     }
 }

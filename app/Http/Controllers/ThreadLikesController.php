@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Like;
 use App\Thread;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ThreadLikesController extends Controller
 {

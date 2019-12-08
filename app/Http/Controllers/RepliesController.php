@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use App\Thread;
-use App\Channel;
+use App\Inspections\Spam;
 use Illuminate\Http\Request;
 
 class RepliesController extends Controller
@@ -33,16 +33,21 @@ class RepliesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Thread  $thread
+     * @param  Thread $thread
+     * @param  Spam   $spam
+     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
      */
-    public function store(Thread $thread)
+    public function store(Thread $thread, Spam $spam)
     {
         $validated = request()->validate([
            'body' => ['required', 'min:3']
         ]);
 
-        $reply = $thread->addReply([
+        $spam->detect($validated['body']);
+
+        $thread->addReply([
             'user_id' => auth()->id(),
             'body' => $validated['body']
         ]);
@@ -53,7 +58,7 @@ class RepliesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  Reply $reply
      * @return \Illuminate\Http\Response
      */
     public function show(Reply $reply)
@@ -64,7 +69,7 @@ class RepliesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Reply  $reply
+     * @param  Reply $reply
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Reply $reply)
@@ -78,8 +83,8 @@ class RepliesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Reply               $reply
+     * @param  Request $request
+     * @param  Reply   $reply
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -105,8 +110,8 @@ class RepliesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Thread     $thread
-     * @param  \App\Reply $reply
+     * @param  Thread $thread
+     * @param  Reply  $reply
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */

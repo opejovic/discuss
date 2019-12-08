@@ -12,5 +12,5 @@ interface Inspection
      * @param  $text
      * @return mixed
      */
-    public function detect($text);
+    public function inspect($text);
 }

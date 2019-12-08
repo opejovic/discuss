@@ -13,7 +13,7 @@ class KeyHeldDown implements Inspection
      * @return mixed
      * @throws \Throwable
      */
-    public function detect($text)
+    public function inspect($text)
     {
         if ($this->textContainsKeyHeldDown($text)) {
             throw new Exception;

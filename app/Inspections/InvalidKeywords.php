@@ -17,7 +17,7 @@ class InvalidKeywords implements Inspection
      * @throws \Exception
      * @return void
      */
-    public function detect($text)
+    public function inspect($text)
     {
         foreach ($this->keywords as $keyword) {
             if ($this->textContainsInvalidKeyword($text, $keyword)) {

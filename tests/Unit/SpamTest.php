@@ -19,20 +19,14 @@ class SpamTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_spam()
+    public function inspection_doesnt_pass_if_text_contains_invalid_keywords()
     {
-        $this->assertFalse($this->spam->detect('Reply without spam here.'));
-
-        $this->expectException(\Exception::class);
-
-        $this->spam->detect('google customer support');
+        $this->assertFalse($this->spam->inspect('have win apple iphone'));
     }
 
     /** @test */
-    function it_checks_for_any_key_being_held_down()
+    function inspection_doesnt_pass_if_any_key_is_being_held_down()
     {
-        $this->expectException(\Exception::class);
-
-        $this->spam->detect('AAAAAAAAAAAAA');
+        $this->assertFalse($this->spam->inspect('AAAAAAAAAAAAA'));
     }
 }

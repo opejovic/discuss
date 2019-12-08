@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SpamRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ThreadStoreRequest extends FormRequest
@@ -24,8 +25,8 @@ class ThreadStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'      => ['required', 'min:2'],
-            'body'       => ['required', 'min:2'],
+            'title'      => ['required', 'min:2', new SpamRule],
+            'body'       => ['required', 'min:2', new SpamRule],
             'channel_id' => ['required', 'exists:channels,id'],
         ];
     }

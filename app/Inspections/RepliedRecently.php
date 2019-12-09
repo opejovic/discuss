@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 class RepliedRecently implements Inspection
 {
+    // temporary
+    protected $routes = ['replies.store', 'threads.store'];
+
     /**
      * Detect the spam in the text.
      *
@@ -16,7 +19,7 @@ class RepliedRecently implements Inspection
      */
     public function inspect($text)
     {
-        if (auth()->user()->hasRepliedRecently() && $this->routeIsStore()) {
+        if (auth()->user()->hasRepliedRecently() && $this->tryingToPublish()) {
             $this->warn();
         }
     }
@@ -32,8 +35,8 @@ class RepliedRecently implements Inspection
     /**
      * @return bool
      */
-    public function routeIsStore()
+    public function tryingToPublish()
     {
-        return Route::currentRouteName() == 'replies.store';
+        return collect($this->routes)->contains(Route::currentRouteName());
     }
 }

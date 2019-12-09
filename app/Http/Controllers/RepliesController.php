@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Reply;
 use App\Thread;
 use App\Rules\SpamRule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use App\Notifications\YouWereMentioned;
 
 class RepliesController extends Controller
 {
@@ -22,21 +23,11 @@ class RepliesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  Thread $thread
      * @throws \Exception
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store(Thread $thread)
     {
@@ -44,23 +35,22 @@ class RepliesController extends Controller
            'body' => ['required', 'min:3', new SpamRule]
         ]);
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'user_id' => auth()->id(),
             'body' => $validated['body']
         ]);
 
-        return response('Reply created!', 201);
-    }
+        // Check for mentioned users
+        preg_match_all('/@([^\s\.\,\;\`\?\!\+\~]+)/', $reply->body, $matches);
+        $names = $matches[1];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Reply $reply
-     * @return void
-     */
-    public function show(Reply $reply)
-    {
-        //
+        // Notified mentioned users
+        foreach ($names as $name) {
+            $user = User::whereName($name)->first();
+            $user->notify(new YouWereMentioned($reply));
+        }
+
+        return response('Reply created!', 201);
     }
 
     /**
@@ -82,8 +72,8 @@ class RepliesController extends Controller
      *
      * @param  Request $request
      * @param  Reply   $reply
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(Request $request, Reply $reply)
     {
@@ -105,8 +95,8 @@ class RepliesController extends Controller
      *
      * @param  Thread $thread
      * @param  Reply  $reply
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function destroy(Thread $thread, Reply $reply)
     {
@@ -114,10 +104,6 @@ class RepliesController extends Controller
 
         $reply->delete();
 
-        if (request()->expectsJson()) {
-            return response(['Reply deleted'], 201);
-        }
-
-        return back();
+        return response(['Reply deleted'], 201);
     }
 }

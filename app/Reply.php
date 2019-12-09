@@ -36,4 +36,22 @@ class Reply extends Model
     {
         return $this->belongsTo(Thread::class, 'thread_id');
     }
+
+    /**
+     * Get the mentioned users from the body, if there are any.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function mentionedUsers()
+    {
+        // Find the characters (string/word/name) after the @ symbol.
+        // Does not include: space , . ; : ? ! + ~
+        preg_match_all('/@([^\s\.\,\;\:\`\?\!\+\~]+)/', $this->body, $matches);
+
+        $mentionedNames = collect($matches[1]);
+
+        return $mentionedNames->map(function ($name) {
+            return User::whereName($name)->first();
+        })->filter();
+    }
 }

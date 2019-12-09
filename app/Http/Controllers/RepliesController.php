@@ -35,20 +35,10 @@ class RepliesController extends Controller
            'body' => ['required', 'min:3', new SpamRule]
         ]);
 
-        $reply = $thread->addReply([
+        $thread->addReply([
             'user_id' => auth()->id(),
             'body' => $validated['body']
         ]);
-
-        // Check for mentioned users
-        preg_match_all('/@([^\s\.\,\;\`\?\!\+\~]+)/', $reply->body, $matches);
-        $names = $matches[1];
-
-        // Notified mentioned users
-        foreach ($names as $name) {
-            $user = User::whereName($name)->first();
-            $user->notify(new YouWereMentioned($reply));
-        }
 
         return response('Reply created!', 201);
     }

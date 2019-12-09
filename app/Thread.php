@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use App\Traits\Likable;
 use App\Traits\RecordsActivity;
+use App\Events\ThreadReceivedNewReply;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -88,7 +89,7 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($attributes);
 
-        $this->notifySubscribers($reply);
+        event(new ThreadReceivedNewReply($reply));
 
         return $reply;
     }
@@ -150,19 +151,6 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         return $this->subscriptions()->where('user_id', auth()->id())->exists();
-    }
-
-    /**
-     * Notify thread subscribers about the new reply.
-     *
-     * @param  \App\Reply $reply
-     */
-    public function notifySubscribers(Reply $reply)
-    {
-        $this->subscriptions
-            ->where('user_id', '!=', $reply->user_id)
-            ->each
-            ->notify($reply);
     }
 
     /**

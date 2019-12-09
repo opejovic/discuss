@@ -22,6 +22,7 @@ class MentionUsersTest extends TestCase
     /** @test */
     function mentioned_users_in_a_reply_are_notified()
     {
+        $this->withoutExceptionHandling();
         $john = factory(User::class)->create(['name' => 'JohnDoe']);
         $jane = factory(User::class)->create(['name' => 'JaneDoe']);
 

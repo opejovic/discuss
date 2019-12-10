@@ -49,9 +49,7 @@ class Reply extends Model
         preg_match_all('/@([^\s\.\,\;\:\`\?\!\+\~]+)/', $this->body, $matches);
 
         $mentionedNames = collect($matches[1]);
-
-        return $mentionedNames->map(function ($name) {
-            return User::whereName($name)->first();
-        })->filter();
+        
+        return User::whereIn('name', $mentionedNames)->get();
     }
 }

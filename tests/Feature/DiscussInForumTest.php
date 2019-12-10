@@ -124,7 +124,7 @@ class DiscussInForumTest extends TestCase
     }
 
     /** @test */
-    function users_can_reply_only_once_per_minute()
+    public function users_can_reply_only_once_per_minute()
     {
         $this->assertCount(0, Reply::all());
 
@@ -136,13 +136,17 @@ class DiscussInForumTest extends TestCase
     private function replyTwice()
     {
         $this->actingAs($this->user)
-            ->post(route('replies.store', $this->thread), [
+            ->post(
+                route('replies.store', $this->thread),
+                [
                     'body' => 'First reply. It should be saved.'
                 ]
             )->assertCreated();
 
         $this->actingAs($this->user)
-            ->post(route('replies.store', $this->thread), [
+            ->post(
+                route('replies.store', $this->thread),
+                [
                     'body' => 'Second reply, immediately after the first. It should not be allowed.'
                 ]
             );

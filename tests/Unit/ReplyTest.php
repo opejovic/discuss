@@ -16,18 +16,17 @@ class ReplyTest extends TestCase
         parent::setUp();
 
         $this->john = factory(User::class)->create(['name' => 'JohnDoe']);
-
     }
 
     /** @test */
-    function it_has_an_author()
+    public function it_has_an_author()
     {
         $reply = factory(Reply::class)->create(['user_id' => $this->john->id]);
         $this->assertTrue($this->john->is($reply->author));
     }
 
     /** @test */
-    function it_can_detect_all_mentioned_users_in_the_body()
+    public function it_can_detect_all_mentioned_users_in_the_body()
     {
         $jane = factory(User::class)->create(['name' => 'JaneDoe']);
 
@@ -46,5 +45,18 @@ class ReplyTest extends TestCase
     private function assertThereAreTwoMentionedUsers($reply)
     {
         $this->assertCount(2, $reply->mentionedUsers());
+    }
+
+    /** @test */
+    public function it_wraps_mentioned_users_name_in_an_anchor_tag()
+    {
+        $reply = factory(Reply::class)->create([
+            'body' => "Hey @{$this->john->name}"
+        ]);
+        
+        $this->assertEquals(
+            'Hey <a href="/profiles/JohnDoe">@JohnDoe</a>',
+            $reply->body
+        );
     }
 }

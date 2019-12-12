@@ -53,9 +53,9 @@ class ReplyTest extends TestCase
         $reply = factory(Reply::class)->create([
             'body' => "Hey @{$this->john->name}"
         ]);
-        
+
         $this->assertEquals(
-            'Hey <a href="/profiles/JohnDoe">@JohnDoe</a>',
+            'Hey <a class="text-blue-400" href="/profiles/JohnDoe">@JohnDoe</a>',
             $reply->body
         );
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Listeners;
 
 use App\User;
 use App\Events\ThreadReceivedNewReply;

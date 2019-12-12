@@ -5,12 +5,12 @@
         </div>
 
         <div v-for="reply in items.data" :key="reply.id">
-            <reply :reply="reply" @deleted="remove"></reply>
+            <reply :reply="reply" @deleted="remove"/>
         </div>
 
-        <paginator :pagination="items" @changed="refresh"></paginator>
+        <paginator :pagination="items" @changed="refresh"/>
 
-        <new-reply v-if="auth" :thread="thread" @created="add"></new-reply>
+        <new-reply v-if="auth" :thread="thread" @created="add"/>
 
         <div v-else class="text-sm pt-4 text-gray-700"><a class="text-gray-600 hover:text-gray-500 border-b-2 pb-1" href="/login">Sign in</a> if you want to join the discussion.</div>
     </div>

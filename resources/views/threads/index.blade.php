@@ -29,4 +29,11 @@
             Nothing here.
         </div>
     @endforelse
+
+    <div class="flex justify-center">
+        <div>
+            {{ $threads->links() }}
+        </div>
+    </div>
+
 @endsection

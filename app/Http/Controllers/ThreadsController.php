@@ -112,11 +112,11 @@ class ThreadsController extends Controller
     }
 
     /**
-     * @param  ThreadFilters $filters
-     * @param  Channel       $channel
-     * @return Collection
+     * @param  \App\Filters\ThreadFilters $filters
+     * @param  \App\Channel|null          $channel
+     * @return mixed
      */
-    protected function getThreads(ThreadFilters $filters, Channel $channel = null): Collection
+    protected function getThreads(ThreadFilters $filters, Channel $channel = null)
     {
         $threads = Thread::latest();
 
@@ -124,6 +124,6 @@ class ThreadsController extends Controller
             $threads = $channel->threads()->latest();
         }
 
-        return $threads->filter($filters)->get();
+        return $threads->filter($filters)->paginate(10);
     }
 }

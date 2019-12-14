@@ -19,7 +19,7 @@ abstract class Filters
     protected $builder;
 
     /**
-     * @var Array
+     * @var array
      */
     protected $filters = [];
 

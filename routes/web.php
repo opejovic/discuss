@@ -38,11 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('notifications', ['as' => 'notifications.index', 'uses' => 'UserNotificationsController@index']);
     Route::delete('notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'UserNotificationsController@destroy']);
 
-    Route::get('users', 'Api\MentionUsersController@index');
+    Route::get('users', ['uses' => 'Api\MentionUsersController@index']);
+    Route::post('api/users/{user}/avatar', ['uses' => 'Api\AvatarsController@store']);
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');
 Route::get('threads/{channel}/{thread}', ['as' => 'threads.show', 'uses' => 'ThreadsController@show']);
 
 Route::get('profiles/{user}', ['as' => 'profile', 'uses' => 'ProfilesController@show']);
-

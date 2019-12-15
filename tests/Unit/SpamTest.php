@@ -28,7 +28,7 @@ class SpamTest extends TestCase
     }
 
     /** @test */
-    function inspection_doesnt_pass_if_any_key_is_being_held_down()
+    public function inspection_doesnt_pass_if_any_key_is_being_held_down()
     {
         $this->assertStringContainsString('Holding down keys much?', $this->spam->inspect('AAAAAAAAAAA'));
     }

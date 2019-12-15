@@ -24,7 +24,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_returns_a_string_representation_of_its_path()
+    public function it_returns_a_string_representation_of_its_path()
     {
         $thread = factory(Thread::class)->make(['id' => 1]);
 
@@ -32,7 +32,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_replies()
+    public function it_can_have_many_replies()
     {
         $replyA = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
         $replyB = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
@@ -44,14 +44,14 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_has_an_author()
+    public function it_has_an_author()
     {
         $thread = factory(Thread::class)->create(['user_id' => $this->user->id]);
         $this->assertTrue($thread->author->is($this->user));
     }
 
     /** @test */
-    function it_can_return_published_at_date()
+    public function it_can_return_published_at_date()
     {
         $thread = factory(Thread::class)->create(['created_at' => '2019-04-10 00:00:00']);
 
@@ -59,7 +59,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function a_reply_can_be_added_to_it()
+    public function a_reply_can_be_added_to_it()
     {
         $this->assertEquals(0, $this->thread->replies->count());
 
@@ -72,7 +72,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_notifies_all_subscribers_when_a_new_reply_is_added_to_it()
+    public function it_notifies_all_subscribers_when_a_new_reply_is_added_to_it()
     {
         Notification::fake();
 
@@ -95,7 +95,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_belongs_to_a_channel()
+    public function it_belongs_to_a_channel()
     {
         $thread = factory(Thread::class)->create();
 
@@ -103,7 +103,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_can_be_liked()
+    public function it_can_be_liked()
     {
         auth()->login($this->user);
 
@@ -113,7 +113,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_knows_if_it_has_been_liked()
+    public function it_knows_if_it_has_been_liked()
     {
         auth()->login($this->user);
         $this->thread->like();
@@ -122,7 +122,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_can_be_unliked()
+    public function it_can_be_unliked()
     {
         auth()->login($this->user);
         $this->thread->like();
@@ -133,7 +133,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function a_thread_can_be_subscribed_to()
+    public function a_thread_can_be_subscribed_to()
     {
         $this->thread->subscribe($userId = 1);
 
@@ -141,7 +141,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function a_thread_can_be_unsubscribed_from()
+    public function a_thread_can_be_unsubscribed_from()
     {
         $this->thread->subscribe($userId = 1);
         $this->assertTrue($this->thread->subscriptions()->where('user_id', $userId)->exists());
@@ -151,7 +151,7 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function it_can_tell_if_logged_in_user_has_read_all_of_its_replies()
+    public function it_can_tell_if_logged_in_user_has_read_all_of_its_replies()
     {
         auth()->login($this->user);
         $this->thread->subscribe();

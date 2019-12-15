@@ -12,7 +12,7 @@ class ChannelTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_can_have_threads()
+    public function it_can_have_threads()
     {
         $channel = factory(Channel::class)->create();
         $threadInChannel = factory(Thread::class)->create(['channel_id' => $channel->id]);
@@ -20,6 +20,5 @@ class ChannelTest extends TestCase
 
         $this->assertTrue($channel->threads->contains($threadInChannel));
         $this->assertFalse($channel->threads->contains($otherThread));
-
     }
 }

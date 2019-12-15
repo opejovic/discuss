@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Reply;
 use App\Thread;
 use App\Rules\SpamRule;
 use Illuminate\Http\Request;
-use App\Notifications\YouWereMentioned;
 
 class RepliesController extends Controller
 {

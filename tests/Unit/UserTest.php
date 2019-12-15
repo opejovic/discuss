@@ -22,7 +22,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_threads()
+    public function it_can_have_many_threads()
     {
         factory(Thread::class)->create(['user_id' => $this->user->id]);
 
@@ -30,7 +30,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function it_can_publish_a_thread()
+    public function it_can_publish_a_thread()
     {
         $this->user->publishThread([
             'channel_id' => factory(Channel::class)->create()->id,
@@ -42,7 +42,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function it_has_activities()
+    public function it_has_activities()
     {
         auth()->login($this->user);
 
@@ -56,13 +56,13 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function it_can_have_many_replies()
+    public function it_can_have_many_replies()
     {
         $this->assertInstanceOf(Collection::class, $this->user->replies);
     }
 
     /** @test */
-    function it_can_tell_if_its_subscribed_to_a_thread()
+    public function it_can_tell_if_its_subscribed_to_a_thread()
     {
         $thread = factory(Thread::class)->create();
         $thread->subscribe($this->user->id);
@@ -72,7 +72,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function it_knows_if_it_has_replied_recently()
+    public function it_knows_if_it_has_replied_recently()
     {
         // If user has a reply that was updated in the past minute.
         factory(Reply::class)->create(['user_id' => $this->user->id]);

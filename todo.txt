@@ -1,7 +1,11 @@
-1. Thread
-2. Reply
-3. User
+@TODO
 
-# Thread belongs to a user, and thread can have many replies
-# Reply belongs to a user, but it also belongs to a thread
-# User is the author of the thread, user is the author (owner) of the reply.
+Extract Mentions.vue and Dropdowns (ChannelSearchSelect and Notifications)
+components, to a single, dropdown component, and reference it from these components, to avoid duplication!
+
+
+Implement user nicknames.
+
+After the reply is left, redirect/focus on the reply.
+
+Responsiveness - fix hamburger items.

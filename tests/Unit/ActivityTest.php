@@ -15,7 +15,7 @@ class ActivityTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function it_records_activity_whenever_a_thread_is_created()
+    public function it_records_activity_whenever_a_thread_is_created()
     {
         $user = factory(User::class)->create();
         auth()->login($user);
@@ -32,7 +32,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    function it_records_activity_whenever_a_reply_is_created()
+    public function it_records_activity_whenever_a_reply_is_created()
     {
         $user = factory(User::class)->create();
         auth()->login($user);
@@ -50,7 +50,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    function it_fetches_feed_for_any_user()
+    public function it_fetches_feed_for_any_user()
     {
         auth()->login($user = factory(User::class)->create());
         $threadFromLastWeek = factory(Thread::class)->create(['created_at' => now()->subWeek()]);

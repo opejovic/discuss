@@ -1,26 +1,25 @@
 <script>
-    export default {
-        name: "OnClickOutside",
-        props: ['do'],
+export default {
+  name: "OnClickOutside",
+  props: ["do"],
 
-        mounted() {
-            const listener = (e) => {
-                if (e.target === this.$el || this.$el.contains(e.target)) {
-                    return
-                }
+  mounted() {
+    const listener = e => {
+      if (e.target === this.$el || this.$el.contains(e.target)) {
+        return;
+      }
 
-                this.do()
-            }
+      this.do();
+    };
 
-            document.addEventListener('click', listener)
-            this.$once('hook:beforeDestroy', () => {
-                document.removeEventListener('click', listener)
-            })
+    document.addEventListener("click", listener);
+    this.$once("hook:beforeDestroy", () => {
+      document.removeEventListener("click", listener);
+    });
+  },
 
-        },
-
-        render() {
-            return this.$slots.default[0]
-        }
-    }
+  render() {
+    return this.$slots.default[0];
+  }
+};
 </script>

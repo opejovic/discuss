@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('notifications/{notification}', ['as' => 'notifications.destroy', 'uses' => 'UserNotificationsController@destroy']);
 
     Route::get('users', ['uses' => 'Api\MentionUsersController@index']);
-    Route::post('api/users/{user}/avatar', ['uses' => 'Api\AvatarsController@store']);
+    Route::post('api/users/{user}/avatar', ['as' => 'avatars.store', 'uses' => 'Api\AvatarsController@store']);
 });
 
 Route::get('threads/{channel}', 'ThreadsController@index');

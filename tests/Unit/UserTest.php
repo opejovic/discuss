@@ -79,4 +79,14 @@ class UserTest extends TestCase
 
         $this->assertTrue($this->user->hasRepliedRecently());
     }
+
+    /** @test */
+    public function it_has_a_placeholder_avatar_if_there_is_none_uploaded()
+    {
+        $user = factory(User::class)->create();
+        $this->assertEquals('http://localhost/images/avatar-placeholder.svg', $this->user->avatar);
+
+        $user->update(['avatar_path' => 'avatars/sampleavatarimage.jpeg']);
+        $this->assertEquals('http://localhost/avatars/sampleavatarimage.jpeg', $user->avatar);
+    }
 }

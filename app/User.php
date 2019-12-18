@@ -127,4 +127,16 @@ class User extends Authenticatable
     {
         return $this->replies()->where('created_at', '>=', now()->subMinute())->exists();
     }
+
+    /**
+     * Return the users avatar path.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        return is_null($this->avatar_path)
+            ? asset('images/avatar-placeholder.svg')
+            : asset($this->avatar_path);
+    }
 }

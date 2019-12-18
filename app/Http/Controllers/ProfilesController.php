@@ -16,7 +16,7 @@ class ProfilesController extends Controller
     public function show(User $user)
     {
         return view('profiles.show', [
-            'user' => $user,
+            'profileUser' => $user,
             'activities' => Activity::feed($user)
         ]);
     }

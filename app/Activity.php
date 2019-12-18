@@ -20,17 +20,17 @@ class Activity extends Model
     }
 
     /**
-     * @param  User $user
-     * @param       $take
+     * @param  User    $user
+     * @param  integer $take
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function feed(User $user, $take = 50): \Illuminate\Database\Eloquent\Collection
+    public static function feed(User $user, $take = 25): \Illuminate\Database\Eloquent\Collection
     {
         return static::where('user_id', $user->id)
             ->latest()
             ->with('subject')
-            ->get()
             ->take($take)
+            ->get()
             ->groupBy(function ($activity) {
                 return $activity->created_at->format('d M Y');
             });

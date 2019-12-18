@@ -20,6 +20,11 @@ class Reply extends Model
      * Attributes that are not mass assignable.
      */
     protected $guarded = [];
+    
+    /**
+     * Relationships to include in every query.
+     */
+    protected $with = ['thread'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

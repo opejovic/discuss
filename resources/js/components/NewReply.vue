@@ -3,15 +3,16 @@
     <form @submit.prevent="storeReply()">
       <div class="pb-1 relative">
         <textarea
-          id="textarea"
           v-model="body"
           class="w-full text-gray-700 placeholder-gray-500 text-sm border p-3 rounded-lg focus:outline-none"
           :class="hasErrors('body') ? 'border-red-500' : 'border-gray-200'"
           @keydown="clearErrors"
           @keyup="hasMentions()"
           rows="4"
+          ref="textarea"
           placeholder="Have something to say?"
         />
+
         <mention
           class="absolute top-0"
           :users="users"
@@ -119,7 +120,7 @@ export default {
       }
 
       this.alreadyQueried = true;
-      document.querySelector("#textarea").focus();
+      this.$refs.textarea.focus();
     }
   }
 };

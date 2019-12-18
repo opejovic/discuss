@@ -14,10 +14,13 @@
           class="bg-gray-200 rounded shadow-lg mt-2 w-64 right-0"
         >
           <input
-            class="w-full p-3 focus:outline-none bg-gray-200 text-gray-700 select-none rounded-t"
+            class="w-full p-3 focus:outline-none bg-gray-200 text-gray-700
+          select-none rounded-t"
             v-model="search"
             ref="search"
-            @keydown.esc="close"
+            @keydown.exact.esc="close"
+            @keydown.exact.space="close"
+            @keydown.tab="selectHighlighted"
             @keydown.up="highlightPrevious"
             @keydown.down="highlightNext"
             @keydown.enter.prevent="selectHighlighted"
@@ -67,6 +70,7 @@ export default {
         return user.name.toLowerCase().startsWith(this.search.toLowerCase());
       });
     },
+
     noResults() {
       return this.filteredUsers == 0;
     }
@@ -88,6 +92,7 @@ export default {
         this.$refs.search.focus();
       });
     },
+
     close() {
       if (this.isOpen == false) {
         return;
@@ -95,14 +100,18 @@ export default {
 
       this.search = "";
       this.isOpen = false;
+      this.$emit("closed");
     },
+
     select(user) {
       this.$emit("closed", user);
       this.close();
     },
+
     selectHighlighted() {
       return this.select(this.filteredUsers[this.highlightedIndex]);
     },
+
     highlight(index) {
       this.highlightedIndex = index;
 
@@ -118,9 +127,11 @@ export default {
         block: "nearest"
       });
     },
+
     highlightNext() {
       this.highlight(this.highlightedIndex + 1);
     },
+
     highlightPrevious() {
       this.highlight(this.highlightedIndex - 1);
     }

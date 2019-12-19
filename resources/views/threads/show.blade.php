@@ -8,7 +8,7 @@
 
             <a class="text-sm" href="{{ route('profile', $thread->author) }}">
                 <div>
-                    <img class="mx-auto xl:w-10 w-8 rounded-full" src="{{ $thread->author->avatar }}"
+                    <img class="mx-auto xl:w-10 w-8 rounded-full" src="{{ $thread->author->avatar_path }}"
                         alt="users-avatar" />
 
                 </div>

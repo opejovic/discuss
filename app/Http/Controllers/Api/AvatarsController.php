@@ -16,6 +16,8 @@ class AvatarsController extends Controller
      */
     public function store(Request $request)
     {
+        // Need to see if there is an existing avatar in the storage
+        // And delete it
         $request->validate([
             'avatar' => ['required', 'image']
         ]);

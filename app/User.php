@@ -133,10 +133,8 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getAvatarAttribute()
+    public function getAvatarPathAttribute($avatar)
     {
-        return is_null($this->avatar_path)
-            ? asset('images/avatar-placeholder.svg')
-            : asset($this->avatar_path);
+        return asset($avatar ?? 'images/avatar-placeholder.svg');
     }
 }

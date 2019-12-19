@@ -5,19 +5,7 @@
     <div class="border-b-2 pb-3 border-gray-100 text-gray-700">
         <div class="flex justify-between items-center pb-2">
             <div class="flex items-center justify-start">
-                {{-- <avatar-component /> --}}
-
-                <img class="xl:w-24 w-20 cursor-pointer rounded-full" src="{{ $profileUser->avatar }}"
-                    alt="users-avatar" />
-
-                <form action="{{ route('avatars.store', $profileUser) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="file" name="avatar" id="avatar" accept="image/*" />
-
-                    <button type="submit">
-                        Upload
-                    </button>
-                </form>
+                <avatar-component :user="{{ $profileUser }}" />
 
                 <div class="text-xl pl-4 font-bold">
                     {{ $profileUser->name }}

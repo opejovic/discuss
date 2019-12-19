@@ -58,7 +58,7 @@ class AddAvatarTest extends TestCase
     {
         $avatarPath = "avatars/{$avatar->hashName()}";
 
-        $this->assertEquals($avatarPath, $this->user->avatar_path);
+        $this->assertEquals(asset($avatarPath), $this->user->avatar_path);
 
         Storage::disk('public')->assertExists($avatarPath);
         Storage::disk('public')->delete($avatarPath);

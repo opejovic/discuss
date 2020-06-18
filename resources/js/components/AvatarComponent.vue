@@ -1,14 +1,6 @@
 <template>
-  <div
-    :class="canUpdate ? 'cursor-pointer' : ''"
-    class="text-xs"
-    @click="choosePhoto"
-  >
-    <img
-      class="xl:w-24 xl:h-24 w-20 h-20 rounded-full"
-      :src="avatar"
-      alt="users-avatar"
-    />
+  <div :class="canUpdate ? 'cursor-pointer' : ''" class="text-xs" @click="choosePhoto">
+    <img class="xl:w-24 xl:h-24 w-20 h-20 rounded-full" :src="avatar" alt="users-avatar" />
 
     <form v-if="canUpdate" enctype="multipart/form-data">
       <input

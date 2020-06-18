@@ -17,7 +17,7 @@ class AddAvatarTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->user = factory(User::class)->create();
     }
 
@@ -39,9 +39,9 @@ class AddAvatarTest extends TestCase
     public function a_user_may_add_avatar_to_their_profile()
     {
         Storage::fake();
-        
+
         $avatar = UploadedFile::fake()->image('avatar.jpg');
-        
+
         $this->actingAs($this->user)->uploadAvatar($avatar)->assertSuccessful();
 
         $this->assertUploadedAndSavedToUsersAccount($avatar);
